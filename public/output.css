@@ -1253,6 +1253,10 @@ select {
   border-color: rgb(17 24 39 / 0.25);
 }
 
+.bg-custom-color1 {
+  background-color: rgba(17,60,115,255);
+}
+
 .bg-gray-100 {
   --tw-bg-opacity: 1;
   background-color: rgb(243 244 246 / var(--tw-bg-opacity));
