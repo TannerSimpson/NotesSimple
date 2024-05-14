@@ -1295,6 +1295,7 @@ select {
   background-image: linear-gradient(to top right, var(--tw-gradient-stops));
 }
 
+/*
 .from-\[\#ff80b5\] {
   --tw-gradient-from: #ff80b5 var(--tw-gradient-from-position);
   --tw-gradient-to: rgb(255 128 181 / 0) var(--tw-gradient-to-position);
@@ -1303,6 +1304,16 @@ select {
 
 .to-\[\#9089fc\] {
   --tw-gradient-to: #9089fc var(--tw-gradient-to-position);
+}*/
+
+.from-\[\#ff80b5\] {
+  --tw-gradient-from: rgba(109,163,233,255) var(--tw-gradient-from-position);
+  --tw-gradient-to: rgba(180,207,244,255) var(--tw-gradient-to-position);
+  --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
+}
+
+.to-\[\#9089fc\] {
+  --tw-gradient-to: rgba(17,60,115,255) var(--tw-gradient-to-position);
 }
 
 .p-1 {
@@ -1549,6 +1560,10 @@ select {
 .text-indigo-600 {
   --tw-text-opacity: 1;
   color: rgb(79 70 229 / var(--tw-text-opacity));
+}
+
+.text-color {
+  color: rgba(17,60,115,255)
 }
 
 .text-white {

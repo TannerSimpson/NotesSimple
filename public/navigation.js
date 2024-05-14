@@ -1,13 +1,12 @@
+//functions for standard menu
 const hideMenuItems = () => {
     const menu = document.querySelector('.relative.ml-3 > div:nth-child(2)');
     menu.style.display = 'none';
-    console.log('Menu items hidden');
 };
 
 const showMenuItems = () => {
     const menu = document.querySelector('.relative.ml-3 > div:nth-child(2)');
     menu.style.display = 'block';
-    console.log('Menu items shown');
 };
 
 const toggleMenuItems = () => {
@@ -17,7 +16,6 @@ const toggleMenuItems = () => {
     } else {
         menu.style.display = 'none';
     }
-    console.log('Menu items toggled');
 };
 
 const profilePictureButton = document.getElementById('user-menu-button');
@@ -25,8 +23,36 @@ if (profilePictureButton) {
     profilePictureButton.onclick = () => {
         toggleMenuItems();
     };
-    console.log('Profile picture button click handler attached');
 }
 
+// Functions for mobile menu
+const hideMobileMenuItems = () => {
+    const menu = document.getElementById('mobile-menu');
+    menu.style.display = 'none';
+};
+
+const showMobileMenuItems = () => {
+    const menu = document.getElementById('mobile-menu');
+    menu.style.display = 'block';
+};
+
+const toggleMobileMenuItems = () => {
+    const menu = document.getElementById('mobile-menu');
+    if (menu.style.display === 'none' || menu.style.display === '') {
+        menu.style.display = 'block';
+    } else {
+        menu.style.display = 'none';
+    }
+};
+
+const mobileMenuButton = document.querySelector('button[aria-controls="mobile-menu"]');
+if (mobileMenuButton) {
+    mobileMenuButton.onclick = () => {
+        toggleMobileMenuItems();
+    };
+}
+
+
 hideMenuItems();
-console.log('Menu items hidden on page load');
+hideMobileMenuItems();
+
