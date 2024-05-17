@@ -1,4 +1,4 @@
-const { Pool } = require('pg');
+/*const { Pool } = require('pg');
 
 const pool = new Pool({
   user: 'notessimpledb_user',
@@ -33,6 +33,18 @@ const pool = new Pool({
     await pool.end();
   }
 
-});
+});*/
 
+
+
+const getFormData = () => {
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+  const firstName = document.getElementById('firstname').value;
+  const lastName = document.getElementById('lastname').value;
+  const email = document.getElementById('email').value;
+  const phone = document.getElementById('phone').value;
+
+  return { username, password, firstName, lastName, email, phone };
+};
 
