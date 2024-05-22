@@ -13,6 +13,7 @@ app.listen(3000, ()=> {
 
 
 // Get form data
+app.post("/signup", async (req, res) => {
 const uname = document.getElementById('username').value;
 const pword = document.getElementById('password').value;
 const fName = document.getElementById('firstname').value;
@@ -20,6 +21,8 @@ const lName = document.getElementById('lastname').value;
 const emailaddress = document.getElementById('email').value;
 const phonenumber = document.getElementById('phone').value;
 const zcode = document.getElementById('zipcode').value;
+})
+
 
 // Create connection pool to the database
 const { Pool } = require('pg');
