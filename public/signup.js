@@ -1,3 +1,16 @@
+// Get form data
+const getFormData = () => {
+  const uname = document.getElementById('username').value;
+  const pword = document.getElementById('password').value;
+  const fName = document.getElementById('firstname').value;
+  const lName = document.getElementById('lastname').value;
+  const emailaddress = document.getElementById('email').value;
+  const phonenumber = document.getElementById('phone').value;
+
+  return { uname, pword, fName, lName, emailaddress, phonenumber };
+};
+
+// Create connection pool to the database
 const { Pool } = require('pg');
 
 const pool = new Pool({
@@ -34,17 +47,4 @@ const pool = new Pool({
   }
 
 });
-
-
-
-const getFormData = () => {
-  const username = document.getElementById('username').value;
-  const password = document.getElementById('password').value;
-  const firstName = document.getElementById('firstname').value;
-  const lastName = document.getElementById('lastname').value;
-  const email = document.getElementById('email').value;
-  const phone = document.getElementById('phone').value;
-
-  return { username, password, firstName, lastName, email, phone };
-};
 
