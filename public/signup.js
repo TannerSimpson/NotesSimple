@@ -1,8 +1,8 @@
-/*const { Pool } = require('pg');
+const { Pool } = require('pg');
 
 const pool = new Pool({
   user: 'notessimpledb_user',
-  host: 'postgres://notessimpledb_user:mlKQ61wvErytUB88eppqHaiN643yNyWq@dpg-cp2d2mun7f5s73ffjjug-a.ohio-postgres.render.com/notessimpledb',
+  host: 'postgres://notessimpledb_user:mlKQ61wvErytUB88eppqHaiN643yNyWq@dpg-cp2d2mun7f5s73ffjjug-a/notessimpledb',
   database: 'notessimpledb',
   password: 'mlKQ61wvErytUB88eppqHaiN643yNyWq',
   port: 5432, 
@@ -33,7 +33,7 @@ const pool = new Pool({
     await pool.end();
   }
 
-});*/
+});
 
 
 
