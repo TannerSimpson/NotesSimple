@@ -3,8 +3,6 @@ const app = express();
 app.use(express.static("public"));
 app.use(express.json());
 
-
-
 app.get("/", (req, res)=>{
     res.sendFile(__dirname + "/index.html");
 });
@@ -14,63 +12,44 @@ app.listen(3000, ()=> {
 });
 
 
+// Get form data
+const uname = document.getElementById('username').value;
+const pword = document.getElementById('password').value;
+const fName = document.getElementById('firstname').value;
+const lName = document.getElementById('lastname').value;
+const emailaddress = document.getElementById('email').value;
+const phonenumber = document.getElementById('phone').value;
+const zcode = document.getElementById('zipcode').value;
 
-
-/*
-const express = require("express");
-const app = express();
-const path = require("path");
-const { Pool } = require("pg");
-
-const { getFormData } = require("./public/signup");
-
-app.use(express.static("public"));
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+// Create connection pool to the database
+const { Pool } = require('pg');
 
 const pool = new Pool({
-    user: "notessimpledb_user",
-    host: "dpg-cp2d2mun7f5s73ffjjug-a.ohio-postgres.render.com",
-    database: "notessimpledb",
-    password: "mlKQ61wvErytUB88eppqHaiN643yNyWq",
-    port: 5432,
-    ssl: true
+  user: 'notessimpledb_user',
+  host: 'postgres://notessimpledb_user:mlKQ61wvErytUB88eppqHaiN643yNyWq@dpg-cp2d2mun7f5s73ffjjug-a/notessimpledb',
+  database: 'notessimpledb',
+  password: 'mlKQ61wvErytUB88eppqHaiN643yNyWq',
+  port: 5432, 
 });
 
-app.post("/signup", async (req, res) => {
-    // Get form data using the function from signup.js
-    const formData = getFormData(req.body);
+(async () => {
+  try {
+    // Connect to the database
+    const client = await pool.connect();
+    
+    // Create the query string
+    const qstring = "INSERT INTO accounts (username, password, firstname, lastname, email, phone, zipcode) VALUES ('$uname','$pword', '$fName', '$lName', '$emailaddress', $phonenumber, $zcode)";
+    
+    // Execute a query
+    const res = await client.query('$qstring');
 
-    try {
-        const client = await pool.connect();
+    // Release the client connection back to the pool
+    client.release();
 
-        // Execute database query with form data
-        const query = `
-            INSERT INTO Accounts (username, password, firstname, lastname, email, phone)
-            VALUES ($1, $2, $3, $4, $5, $6)
-        `;
-        const values = [
-            formData.username,
-            formData.password,
-            formData.firstName,
-            formData.lastName,
-            formData.email,
-            formData.phone
-        ];
-        await client.query(query, values);
-
-        client.release();
-        res.redirect("/login.html"); // Redirect to login page upon successful signup
-    } catch (error) {
-        console.error('Error saving data to database:', error);
-        res.status(500).send("Error saving data to database");
-    }
+  } catch (error) {
+    console.error('Error connecting to database:', error);
+  } finally {
+    // Close the connection pool when finished (optional)
+    await pool.end();
+  }
 });
-
-app.get("/", (req, res) => {
-    res.sendFile(path.join(__dirname, "/public/index.html"));
-});
-
-app.listen(3000, () => {
-    console.log("Server is listening on port 3000");
-}); */
