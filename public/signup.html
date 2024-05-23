@@ -79,7 +79,36 @@
         
         
         </div>
-        <script src="server.js"></script>
+        
+        <script>
+          document.getElementById('signup').addEventListener('submit', async (e) => {
+            e.preventDefault();
+        
+            const formData = {
+              username: document.getElementById('username').value,
+              password: document.getElementById('password').value,
+              firstname: document.getElementById('firstname').value,
+              lastname: document.getElementById('lastname').value,
+              email: document.getElementById('email').value,
+              phone: document.getElementById('phone').value,
+              zipcode: document.getElementById('zipcode').value,
+            };
+        
+            const response = await fetch('/signup', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify(formData),
+            });
+        
+            if (response.ok) {
+              alert('Signup successful');
+            } else {
+              alert('Signup failed');
+            }
+          });
+        </script>
     </body>
 
 
