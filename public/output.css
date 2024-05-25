@@ -1937,7 +1937,7 @@ select {
 
 /* Styles for the active tab button */
 .lx.yz button[aria-selected="true"] {
-  background-color: #3f51b5;
+  background-color: rgba(17,60,115,255);
   color: #fff;
 }
 
@@ -1959,13 +1959,13 @@ select {
 
 /* Styles for the active tab button */
 .ke.lx.yz.abk button[aria-selected="true"] {
-  background-color: #3f51b5;
+  background-color: rgba(17,60,115,255);
   color: #fff;
 }
 
 /* Styles for the submit button */
 .ly.yz {
-  background-color: #3f51b5;
+  background-color: rgba(17,60,115,255);
   color: #fff;
   border: none;
   border-radius: 5px;
