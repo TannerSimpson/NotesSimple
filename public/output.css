@@ -1981,3 +1981,20 @@ textarea {
   border-radius: 5px;
   resize: vertical;
 }
+
+/* Styles for the submit button and word count container */
+.submit-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center; /* Vertically centers items */
+  margin-top: 10px; /* Add some margin to the top */
+}
+
+/* Styles for the word count */
+.word-count {
+  background-color: #e0e0e0; /* Dark gray background color */
+  color: black; /* White text color */
+  padding: 6px 10px; /* Add some padding */
+  border-radius: 5px; /* Optional: rounded corners */
+  margin-right: 20px;
+}

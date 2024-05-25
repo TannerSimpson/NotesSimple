@@ -171,11 +171,11 @@
                   <div class="lx yz" role="tablist" aria-orientation="horizontal"><button
                       class="aih axu bic adu aez agy are arp avz awd" id="headlessui-tabs-tab-:r0:" role="tab"
                       type="button" aria-selected="true" tabindex="0" data-headlessui-state="selected" data-selected=""
-                      aria-controls="headlessui-tabs-panel-:r2:">Write</button><button
+                      aria-controls="headlessui-tabs-panel-:r2:">Original</button><button
                       class="alm axq bib bla jt adu aez agy are arp avz awd" id="headlessui-tabs-tab-:r1:" role="tab"
                       type="button" aria-selected="false" tabindex="-1" data-headlessui-state=""
-                      aria-controls="headlessui-tabs-panel-:r3:">Preview</button>
-                    <div class="ke lx yz abk">
+                      aria-controls="headlessui-tabs-panel-:r3:">Output</button>
+                    <!--<div class="ke lx yz abk">
                       <div class="lx yz"><button type="button" class="ft ly nh rj yz ze ads axo bkw"><span
                             class="t">Insert link</span><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                             fill="currentColor" aria-hidden="true" class="nz sb">
@@ -200,22 +200,27 @@
                               d="M5.404 14.596A6.5 6.5 0 1116.5 10a1.25 1.25 0 01-2.5 0 4 4 0 10-.571 2.06A2.75 2.75 0 0018 10a8 8 0 10-2.343 5.657.75.75 0 00-1.06-1.06 6.5 6.5 0 01-9.193 0zM10 7.5a2.5 2.5 0 100 5 2.5 2.5 0 000-5z"
                               clip-rule="evenodd"></path>
                           </svg></button></div>
-                    </div>
+                    </div>-->
                   </div>
                   <div class="lb">
                     <div class="fp adt aqk" id="headlessui-tabs-panel-:r2:" role="tabpanel" tabindex="0"
                       data-headlessui-state="selected" data-selected="" aria-labelledby="headlessui-tabs-tab-:r0:">
-                      <label for="comment" class="t">Comment</label>
+                      <label for="comment" class="t">Text</label>
                       <div><textarea rows="5" name="comment" id="comment"
                           class="lu tn adu afa arp axu bbm bbs bbw bce bgc bnd bne bnq cia cic"
-                          placeholder="Add your comment..."></textarea></div>
+                          placeholder="Add your text..."></textarea></div>
                     </div><span aria-hidden="true" id="headlessui-tabs-panel-:r3:" role="tabpanel" tabindex="-1"
                       aria-labelledby="headlessui-tabs-tab-:r1:"
                       style="position: fixed; top: 1px; left: 1px; width: 1px; height: 0px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; border-width: 0px;"></span>
                   </div>
                 </div>
+                <div class="submit-section">
                 <div class="lb lx zd"><button type="submit"
-                    class="ly yz adu ajp are aru avz awf bag bbm bir box boy bpa bph">Post</button></div>
+                    class="ly yz adu ajp are aru avz awf bag bbm bir box boy bpa bph">Summarize</button></div>
+                <div class="word-count">
+                    <p id="word-count-displayed">Word Count: </p>
+                </div>
+              </div>
               </form>
             </div>
           </div>
@@ -228,6 +233,7 @@
     </main>
   </div>
   <script src="navigation.js"></script>
+  <script src="wordanalysis.js"></script>
 </body>
 
 </html>
