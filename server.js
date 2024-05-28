@@ -55,9 +55,9 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 const msg = {
   to: 'jason@notessimple.com', 
   from: 'admin@notessimple.com', 
-  subject: 'Sending with SendGrid is Fun',
-  text: 'and easy to do anywhere, even with Node.js',
-  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+  subject: 'Welcome to Notes Simple. Please Verify Email Address',
+  text: 'Thank you for signing up with Notes Simple.  Please click the link below to verify your email address and log into Notes Simple.',
+  html: '<div style="font-family: inherit; text-align: center"><span style="font-family: verdana, geneva, sans-serif">Thank you for signing up with Notes Simple. &nbsp;Please click the link below to verify your email address and log into Notes Simple.</span></div><style>div {text-align: center;}</style><div id="center"><a href="url">Click here to verify your email address</a></div>',
 }
 
 app.post("/emailverify", async (req, res) => {
