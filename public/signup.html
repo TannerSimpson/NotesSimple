@@ -113,17 +113,19 @@
 
       if (response.ok) {
         // send confirmation email
-        const emailResponse = await fetch('/emailverify', {
+        /*const emailResponse = await fetch('/emailverify', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-          }
+          }, 
+          body: JSON.stringify({ email: formData.email }),
         });
         if (emailResponse.ok) {
           alert('Signup successful and verification email sent');
         } else {
           alert('Signup successful but failed to send verification email');
-        }
+        }*/
+        alert('Signup Successful');
       } else {
         const result = await response.json();
         if (result.error) {

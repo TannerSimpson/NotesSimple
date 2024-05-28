@@ -6,6 +6,9 @@ const app = express();
 app.use(express.static("public"));
 app.use(express.json());
 
+const sgMail = require('@sendgrid/mail')
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "/index.html"));
 });
@@ -21,6 +24,9 @@ const pool = new Pool({
     rejectUnauthorized: false
   }
 });
+
+// using Twilio SendGrid's v3 Node.js Library
+// https://github.com/sendgrid/sendgrid-nodejs
 
 app.post("/signup", async (req, res) => {
   const { username, password, firstname, lastname, email, phone, zipcode } = req.body;
@@ -39,31 +45,15 @@ app.post("/signup", async (req, res) => {
 
     client.release();
 
-    res.status(200).send("Signup successful");
+    const msg = {
+      to: email,
+      from: 'admin@notessimple.com',
+      subject: 'Welcome to Notes Simple. Please Verify Email Address',
+      text: 'Thank you for signing up with Notes Simple.  Please click the link below to verify your email address and log into Notes Simple.',
+      html: '<div style="font-family: inherit; text-align: center"><span style="font-family: verdana, geneva, sans-serif">Thank you for signing up with Notes Simple. &nbsp;Please click the link below to verify your email address and log into Notes Simple.</span></div><style>div {text-align: center;}</style><div id="center"><a href="url">Click here to verify your email address</a></div>',
+    }    
 
-  } catch (error) {
-    console.error('Error connecting to database:', error);
-    res.status(500).json({ error: "Internal Server Error", details: error.message });
-  }
-});
-
-// using Twilio SendGrid's v3 Node.js Library
-// https://github.com/sendgrid/sendgrid-nodejs
-
-const sgMail = require('@sendgrid/mail')
-sgMail.setApiKey(process.env.SENDGRID_API_KEY)
-
-app.post("/emailverify", async (req, res) => {
-  const { email } = req.body;
-  const msg = {
-    to: email,
-    from: 'admin@notessimple.com',
-    subject: 'Welcome to Notes Simple. Please Verify Email Address',
-    text: 'Thank you for signing up with Notes Simple.  Please click the link below to verify your email address and log into Notes Simple.',
-    html: '<div style="font-family: inherit; text-align: center"><span style="font-family: verdana, geneva, sans-serif">Thank you for signing up with Notes Simple. &nbsp;Please click the link below to verify your email address and log into Notes Simple.</span></div><style>div {text-align: center;}</style><div id="center"><a href="url">Click here to verify your email address</a></div>',
-  }
-
-  sgMail
+    sgMail
     .send(msg)
     .then(() => {
       console.log('Email sent')
@@ -71,6 +61,13 @@ app.post("/emailverify", async (req, res) => {
     .catch((error) => {
       console.error(error)
     })
+
+    res.status(200).send("Signup successful");
+
+  } catch (error) {
+    console.error('Error connecting to database:', error);
+    res.status(500).json({ error: "Internal Server Error", details: error.message });
+  }
 });
 
 app.listen(3000, () => {
