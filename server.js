@@ -13,12 +13,12 @@ app.get("/", (req, res) => {
 // Create connection pool to the database with SSL enabled
 const pool = new Pool({
   user: 'notessimpledb_user',
-  host: 'dpg-cp2d2mun7f5s73ffjjug-a.oregon-postgres.render.com', 
+  host: 'dpg-cp2d2mun7f5s73ffjjug-a.oregon-postgres.render.com',
   database: 'notessimpledb',
   password: 'mlKQ61wvErytUB88eppqHaiN643yNyWq',
   port: 5432,
   ssl: {
-    rejectUnauthorized: false 
+    rejectUnauthorized: false
   }
 });
 
@@ -52,25 +52,27 @@ app.post("/signup", async (req, res) => {
 
 const sgMail = require('@sendgrid/mail')
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
-const msg = {
-  to: 'jason@notessimple.com', 
-  from: 'admin@notessimple.com', 
-  subject: 'Welcome to Notes Simple. Please Verify Email Address',
-  text: 'Thank you for signing up with Notes Simple.  Please click the link below to verify your email address and log into Notes Simple.',
-  html: '<div style="font-family: inherit; text-align: center"><span style="font-family: verdana, geneva, sans-serif">Thank you for signing up with Notes Simple. &nbsp;Please click the link below to verify your email address and log into Notes Simple.</span></div><style>div {text-align: center;}</style><div id="center"><a href="url">Click here to verify your email address</a></div>',
-}
 
 app.post("/emailverify", async (req, res) => {
-sgMail
-  .send(msg)
-  .then(() => {
-    console.log('Email sent')
-  })
-  .catch((error) => {
-    console.error(error)
-  })
+  const { email } = req.body;
+  const msg = {
+    to: email,
+    from: 'admin@notessimple.com',
+    subject: 'Welcome to Notes Simple. Please Verify Email Address',
+    text: 'Thank you for signing up with Notes Simple.  Please click the link below to verify your email address and log into Notes Simple.',
+    html: '<div style="font-family: inherit; text-align: center"><span style="font-family: verdana, geneva, sans-serif">Thank you for signing up with Notes Simple. &nbsp;Please click the link below to verify your email address and log into Notes Simple.</span></div><style>div {text-align: center;}</style><div id="center"><a href="url">Click here to verify your email address</a></div>',
+  }
+
+  sgMail
+    .send(msg)
+    .then(() => {
+      console.log('Email sent')
+    })
+    .catch((error) => {
+      console.error(error)
+    })
 });
-         
+
 app.listen(3000, () => {
   console.log("Server is listening on port 3000");
 });
