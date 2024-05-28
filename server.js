@@ -47,6 +47,30 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+// using Twilio SendGrid's v3 Node.js Library
+// https://github.com/sendgrid/sendgrid-nodejs
+
+const sgMail = require('@sendgrid/mail')
+sgMail.setApiKey(process.env.SENDGRID_API_KEY)
+const msg = {
+  to: 'jason@notessimple.com', 
+  from: 'admin@notessimple.com', 
+  subject: 'Sending with SendGrid is Fun',
+  text: 'and easy to do anywhere, even with Node.js',
+  html: '<strong>and easy to do anywhere, even with Node.js</strong>',
+}
+
+app.post("/emailverify", async (req, res) => {
+sgMail
+  .send(msg)
+  .then(() => {
+    console.log('Email sent')
+  })
+  .catch((error) => {
+    console.error(error)
+  })
+}
+         
 app.listen(3000, () => {
   console.log("Server is listening on port 3000");
 });
