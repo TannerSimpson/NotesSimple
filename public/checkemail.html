@@ -8,7 +8,15 @@
     
      // get the x value from the URL
     const x = urlParams.get('x') 
-    console.log(x);
+
+    // pass data to verify
+     const response = await fetch('/emailverify', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(urlvalue: x),
+      });  
 
     // redirect to login page
     window.location.replace("https://notessimple-oaca.onrender.com/login.html"); 
@@ -17,3 +25,4 @@
 </head>
 <body onload="javascript:verifyEmail()">
 </html>
+
