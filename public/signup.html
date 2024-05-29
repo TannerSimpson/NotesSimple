@@ -23,7 +23,7 @@
         <div>
           <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
           <div class="mt-2">
-            <input id="username" name="username" type="text" autocomplete="username" required
+            <input id="username" name="username" type="text" autocomplete="username" minlength="6" maxlength="20" required
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
           </div>
         </div>
@@ -31,7 +31,7 @@
         <div>
           <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
           <div class="mt-2">
-            <input id="password" name="password" type="password" autocomplete="password" required
+            <input id="password" name="password" type="password" autocomplete="password" minlength="6" maxlength="20" required
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
           </div>
         </div>
@@ -89,9 +89,17 @@
 
   </div>
 
+  <script src="validation.js"></script>
   <script>
     document.getElementById('signup').addEventListener('submit', async (e) => {
       e.preventDefault();
+
+      const emailField = document.getElementById('email');
+      const passwordField = document.getElementById('password');
+
+      if (!validateEmail(emailField) || !CheckPassword(passwordField)) {
+        return; 
+      }
 
       const formData = {
         username: document.getElementById('username').value,
@@ -112,19 +120,6 @@
       });
 
       if (response.ok) {
-        // send confirmation email
-        /*const emailResponse = await fetch('/emailverify', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          }, 
-          body: JSON.stringify({ email: formData.email }),
-        });
-        if (emailResponse.ok) {
-          alert('Signup successful and verification email sent');
-        } else {
-          alert('Signup successful but failed to send verification email');
-        }*/
         alert('Signup Successful');
       } else {
         const result = await response.json();
