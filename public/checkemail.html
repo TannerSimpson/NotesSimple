@@ -19,7 +19,7 @@
       if (response.ok) {
          // redirect to login page
         const redirectUrl = await response.text();
-        window.location.replace = redirectUrl;
+        window.location.href = redirectUrl;
       }
     } catch (error) {
     console.error('Error:', error);
