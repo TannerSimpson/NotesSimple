@@ -70,6 +70,8 @@ app.post("/signup", async (req, res) => {
   }
 });
 
+
+
 // Update DB from email verification page
 app.post("/emailverify", async (req, res) => {
   const urlvalue = req.body.x; 
@@ -89,6 +91,8 @@ app.post("/emailverify", async (req, res) => {
     console.error('Error connecting to database:', error);
   }  
 });
+
+
 
 // start the app on port 3000
 app.listen(3000, () => {
