@@ -94,7 +94,7 @@ app.post("/emailverify", async (req, res) => {
     client.release();
 
     // Send the redirect URL in the response body
-    res.json('/login.html');
+    res.send('login.html');
   
  } catch (error) {
     console.error('Error connecting to database:', error);
