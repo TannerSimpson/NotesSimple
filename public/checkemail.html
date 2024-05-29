@@ -10,19 +10,22 @@
     const x = urlParams.get('x') 
 
     // pass data to verify
-     const response = await fetch('/emailverify', {
+    try { 
+    const response = await fetch('/emailverify', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: {'Content-Type': 'application/json',},
         body: JSON.stringify({x: x}),
-      });  
-
-    // redirect to login page
-    window.location.replace("https://notessimple-oaca.onrender.com/login.html"); 
+      });
+      if (response.ok) {
+         // redirect to login page
+        window.location.replace("https://notessimple-oaca.onrender.com/login.html"); 
+      }
+    } catch (error) {
+    console.error('Error:', error);
+    // Handle other errors (e.g., network issues)
     }
+  }
  </script>
 </head>
 <body onload="javascript:verifyEmail()">
 </html>
-
