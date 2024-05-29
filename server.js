@@ -71,7 +71,7 @@ app.post("/signup", async (req, res) => {
 });
 
 // Update DB from email verification page
-app.post('/emailverify', (req, res) => {
+app.post("/emailverify", async (req, res) => {
   const urlvalue = req.body.x; 
 
   try {
