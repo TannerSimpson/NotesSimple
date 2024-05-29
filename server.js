@@ -80,8 +80,9 @@ app.post("/emailverify", async (req, res) => {
     const client = await pool.connect();
 
     const query = `
-      UPDATE accounts SET emailvalid = 'YES' WHERE email = $urlvalue
+      UPDATE accounts SET emailvalid = 'YES' WHERE email = $1
     `;
+    const values = [urlvalue];
     
     await client.query(query, values);
 
