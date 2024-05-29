@@ -18,7 +18,8 @@
       });
       if (response.ok) {
          // redirect to login page
-        window.location.replace("https://notessimple-oaca.onrender.com/login.html"); 
+        const redirectUrl = await response.text();
+        window.location.replace = redirectUrl;
       }
     } catch (error) {
     console.error('Error:', error);
