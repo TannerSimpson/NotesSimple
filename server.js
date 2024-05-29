@@ -92,6 +92,9 @@ app.post("/emailverify", async (req, res) => {
     await client.query(query, values);
 
     client.release();
+
+    // Send the redirect URL in the response body
+    res.json('https://notessimple-oaca.onrender.com/login.html');
   
  } catch (error) {
     console.error('Error connecting to database:', error);
