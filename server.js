@@ -66,7 +66,7 @@ app.post("/signup", async (req, res) => {
 
   } catch (error) {
     console.error('Error connecting to database:', error);
-    res.status(500).json({ error: "Internal Server Error", details: error.message });
+    res.status(500).json({ error: "This profile already exists with the username and/or email address. Please create a new profile.", details: error.message });
   }
 });
 
