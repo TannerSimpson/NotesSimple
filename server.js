@@ -25,8 +25,8 @@ const pool = new Pool({
   }
 });
 
-// using Twilio SendGrid's v3 Node.js Library
-// https://github.com/sendgrid/sendgrid-nodejs
+// Update the DB from the signup page
+// using Twilio SendGrid's v3 Node.js Library sending out the email verification 
 
 app.post("/signup", async (req, res) => {
   const { username, password, firstname, lastname, email, phone, zipcode } = req.body;
@@ -69,6 +69,9 @@ app.post("/signup", async (req, res) => {
     res.status(500).json({ error: "This profile already exists with the username and/or email address. Please create a new profile.", details: error.message });
   }
 });
+
+// Update DB from email verification page
+
 
 app.listen(3000, () => {
   console.log("Server is listening on port 3000");
