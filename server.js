@@ -71,8 +71,26 @@ app.post("/signup", async (req, res) => {
 });
 
 // Update DB from email verification page
+app.post('/emailverify', (req, res) => {
+  const urlvalue = req.body.x; 
 
+  try {
+    const client = await pool.connect();
 
+    const query = `
+      UPDATE accounts SET emailvalid = 'YES' WHERE email = $urlvalue
+    `;
+    
+    await client.query(query, values);
+
+    client.release();
+  
+ } catch (error) {
+    console.error('Error connecting to database:', error);
+  }  
+});
+
+// start the app on port 3000
 app.listen(3000, () => {
   console.log("Server is listening on port 3000");
 });
