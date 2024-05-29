@@ -1,25 +1,19 @@
 <!DOCTYPE html>
 <html>
-testing email 
-<form id="emailverify">
- <input type="submit" value="Submit">
-</form>
-<script>
-          document.getElementById('emailverify').addEventListener('submit', async (e) => {
-            e.preventDefault();
-        
-            const response = await fetch('/emailverify', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              }
-            });
-        
-            if (response.ok) {
-              alert('Signup successful');
-            } else {
-              alert('Signup failed');
-            }
-          });
-</script>
-</html>
+
+<body onload="javascript:verifyEmail()">
+
+ <script type="text/javascript">
+    verifyEmail() {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    
+     // get the x value from the URL
+    const x = urlParams.get('x') 
+    console.log(x);
+
+    // redirect to login page
+    window.location.replace("https://notessimple-oaca.onrender.com/login.html"); 
+    }
+ </script>
+ </html>
