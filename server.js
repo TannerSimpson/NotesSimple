@@ -45,12 +45,17 @@ app.post("/signup", async (req, res) => {
 
     client.release();
 
+    //create the email template
+    const HTMLtemplate = `
+    <div style="font-family: inherit; text-align: left"><span style="font-family: verdana, geneva, sans-serif">Thank you for signing up with Notes Simple. &nbsp;Please click the link below to verify your email address and log into Notes Simple.</span></div><br><div style="font-family: inherit; text-align: left"><span style="font-family: verdana, geneva, sans-serif"><a href="https://notessimple-oaca.onrender.com/checkemail.html?x=${email}">Click here to verify your email address</a></span></div>
+    `;
+
     const msg = {
       to: email,
       from: 'admin@notessimple.com',
       subject: 'Welcome to Notes Simple. Please Verify Email Address',
       text: 'Thank you for signing up with Notes Simple.  Please click the link below to verify your email address and log into Notes Simple.',
-      html: '<div style="font-family: inherit; text-align: left"><span style="font-family: verdana, geneva, sans-serif">Thank you for signing up with Notes Simple. &nbsp;Please click the link below to verify your email address and log into Notes Simple.</span></div><br><div style="font-family: inherit; text-align: left"><span style="font-family: verdana, geneva, sans-serif"><a href="https://notessimple-oaca.onrender.com/checkemail.html?x='${email}'">Click here to verify your email address</a></span></div>',
+      html: HTMLtemplate,
     }    
 
     sgMail
