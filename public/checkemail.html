@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html>
-
-<body onload="javascript:verifyEmail()">
-
- <script type="text/javascript">
+<head>
+  <script type="text/javascript">
     verifyEmail() {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -16,4 +14,6 @@
     window.location.replace("https://notessimple-oaca.onrender.com/login.html"); 
     }
  </script>
- </html>
+</head>
+<body onload="javascript:verifyEmail()">
+</html>
