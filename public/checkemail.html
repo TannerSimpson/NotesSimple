@@ -9,6 +9,8 @@
      // get the x value from the URL
     const x = urlParams.get('x') 
 
+    alert(x);
+
     // pass data to verify
      const response = await fetch('/emailverify', {
         method: 'POST',
