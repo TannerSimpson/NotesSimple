@@ -187,7 +187,10 @@ app.get("/main", validateToken, (req, res) => {
 // Middleware function to validate JWT token
 function validateToken(req, res, next) {
   // Extracting token from the Authorization header
-  const token = req.header('Authorization').replace('Bearer ', '');
+  // const token = req.header('Authorization').replace('Bearer ', '');
+
+  //Extract token from local storage
+  const token = localStorage.getItem('token');
   // Retrieving JWT secret key from environment variables
   const jwtSecretKey = process.env.JWT_SECRET_KEY;
 
@@ -202,6 +205,7 @@ function validateToken(req, res, next) {
     // Responding with 401 status code if the token is invalid
     res.status(401).send("Invalid Token");
   }
+
 }
 
 
