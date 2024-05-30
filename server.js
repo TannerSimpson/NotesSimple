@@ -165,6 +165,7 @@ app.post('/login', async (req, res) => {
       // Generating a JWT token with user ID and username payload, with expiration time set to 1 hour
       const token = jwt.sign({ userId: user.id, username: user.username }, jwtSecretKey, { expiresIn: '1h' });
       // Sending the token in the response
+      console.log('generated token', token);
       res.json({ token });
     } else {
       // Responding with 401 status code if username or password is invalid
