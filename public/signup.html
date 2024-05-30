@@ -13,7 +13,7 @@
 
   <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
     <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-      <img class="mx-auto h-10 w-auto" src="images/Logo.png" alt="Notes Simple Logo">
+      <a href="index.html"><img class="mx-auto h-10 w-auto" src="images/Logo.png" alt="Notes Simple Logo"></a>
       <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">Create your account</h2>
     </div>
 
@@ -120,7 +120,7 @@
       });
 
       if (response.ok) {
-        alert('Signup Successful');
+        alert('You have created a new profile.  Please now open the email from Notes Simple and verify your email address.  You can login to Notes Simple after verifying your email.');
       } else {
         const result = await response.json();
         if (result.error) {
@@ -134,7 +134,7 @@
             alert("Signup failed: " + result.error);
           }
         } else {
-          alert('Signup failed');
+          alert('Signup failed.  Connectivity issues.  Please try again.  ');
         }
       }
     });
