@@ -19,7 +19,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         localStorage.setItem('token', data.token);
   
         // Redirect to main.html
-        window.location.href = 'main.html';
+        window.location.href = '../app/main.html';
       } else {
         const errorText = await response.text();
         alert('Login failed: ' + errorText);
