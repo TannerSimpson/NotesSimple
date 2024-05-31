@@ -108,7 +108,7 @@ app.post("/emailverify", async (req, res) => {
 
 
 // Login endpoint
-/*app.post("/login", async (req, res) => {
+app.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
   try {
@@ -137,9 +137,10 @@ app.post("/emailverify", async (req, res) => {
     console.error('Error connecting to database:', error);
     res.status(500).json({ error: "Internal server error", details: error.message });
   }
-});*/
+});
 
 // Adding the login endpoint to server.js
+/*
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
 
@@ -176,7 +177,7 @@ app.post('/login', async (req, res) => {
     console.error('Error during login:', error);
     res.status(500).send('Error');
   }
-});
+});*/
 
 // Endpoint to access main page, protected by token validation middleware
 app.get("/main", validateToken, (req, res) => {
