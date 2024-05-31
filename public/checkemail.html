@@ -1,32 +1,35 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <script type="text/javascript">
     async function verifyEmail() {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    
-     // get the x value from the URL
-    const x = urlParams.get('x') 
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
 
-    // pass data to verify
-    try { 
-    const response = await fetch('/emailverify', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json',},
-        body: JSON.stringify({x: x}),
-      });
-      if (response.ok) {
-         // redirect to login page
-        const redirectUrl = await response.text();
-        window.location.href = redirectUrl;
+      // get the x value from the URL
+      const x = urlParams.get('x')
+
+      // pass data to verify
+      try {
+        const response = await fetch('/emailverify', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', },
+          body: JSON.stringify({ x: x }),
+        });
+        if (response.ok) {
+          // redirect to login page
+          const redirectUrl = await response.text();
+          window.location.href = redirectUrl;
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        // Handle other errors (e.g., network issues)
       }
-    } catch (error) {
-    console.error('Error:', error);
-    // Handle other errors (e.g., network issues)
     }
-  }
- </script>
+  </script>
 </head>
+
 <body onload="javascript:verifyEmail()">
+
 </html>

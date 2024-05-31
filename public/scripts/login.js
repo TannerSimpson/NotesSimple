@@ -1,6 +1,7 @@
 document.getElementById('loginForm').addEventListener('submit', async function(event) {
     event.preventDefault();
   
+    // get username and password variables
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
   
@@ -10,6 +11,7 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         headers: {
           'Content-Type': 'application/json'
         },
+        // change the username and password into JSON format
         body: JSON.stringify({ username, password })
       });
   

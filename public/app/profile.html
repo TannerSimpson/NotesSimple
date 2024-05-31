@@ -9,23 +9,6 @@
   <title>NotesSimple Profile Page</title>
 </head>
 
-
-<!--
-  This example requires some changes to your config:
-  
-  ```
-  // tailwind.config.js
-  module.exports = {
-    // ...
-    plugins: [
-      // ...
-      require('@tailwindcss/forms'),
-    ],
-  }
-  ```
--->
-
-
 <div class="min-h-full">
   <nav class="bg-gray-200">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -33,8 +16,8 @@
         <div class="flex items-center">
           <div class="">
             <a href="../index.html">
-            <img class="" src="../images/FullLogo_Transparent_NoBuffer.png" height="100px" width="200px"
-              alt="Notes Simple">
+              <img class="" src="../images/FullLogo_Transparent_NoBuffer.png" height="100px" width="200px"
+                alt="Notes Simple">
             </a>
           </div>
           <div class="hidden md:block">
@@ -43,8 +26,6 @@
               <a href="main.html"
                 class="bg-custom-color1 hover:bg-gray-700 text-white rounded-md px-3 py-2 text-sm font-medium"
                 aria-current="page">Home</a>
-              <!--<a href="#"
-                class="bg-custom-color1 hover:bg-gray-700 text-white rounded-md px-3 py-2 text-sm font-medium">Advanced</a>-->
             </div>
           </div>
         </div>
@@ -60,7 +41,6 @@
                   d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
               </svg>
             </button>
-
             <!-- Profile dropdown -->
             <div class="relative ml-3">
               <div>
@@ -69,9 +49,7 @@
                   id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                   <span class="absolute -inset-1.5"></span>
                   <span class="sr-only">Open user menu</span>
-                  <img class="h-8 w-8 rounded-full"
-                    src="../images/defaultpfp.png"
-                    alt="">
+                  <img class="h-8 w-8 rounded-full" src="../images/defaultpfp.png" alt="">
                 </button>
               </div>
 
@@ -85,6 +63,7 @@
                   From: "transform opacity-100 scale-100"
                   To: "transform opacity-0 scale-95"
               -->
+
               <div
                 class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
                 role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1">
@@ -116,22 +95,18 @@
         </div>
       </div>
     </div>
-
     <!-- Mobile menu, show/hide based on menu state. -->
     <div class="md:hidden" id="mobile-menu">
       <div class="space-y-1 px-2 pb-3 pt-2 sm:px-3">
         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-        <a href="main.html" class="bg-custom-color1 text-white hover:bg-gray-700 block rounded-md px-3 py-2 text-base font-medium"
+        <a href="main.html"
+          class="bg-custom-color1 text-white hover:bg-gray-700 block rounded-md px-3 py-2 text-base font-medium"
           aria-current="page">Home</a>
-        <!--<a href="#"
-          class="bg-custom-color1 text-white hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium">Advanced</a>-->
       </div>
       <div class="border-t border-gray-700 pb-3 pt-4">
         <div class="flex items-center px-5">
           <div class="flex-shrink-0">
-            <img class="h-10 w-10 rounded-full"
-              src="../images/defaultpfp.png"
-              alt="">
+            <img class="h-10 w-10 rounded-full" src="../images/defaultpfp.png" alt="">
           </div>
           <div class="ml-3">
             <div class="text-base font-medium leading-none text-gray-400">User</div>
@@ -156,7 +131,6 @@
       </div>
     </div>
   </nav>
-
   <header class="bg-white shadow">
     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
       <h1 class="text-3xl font-bold tracking-tight text-gray-900">Profile</h1>
@@ -168,8 +142,6 @@
         <div class="space-y-12">
           <div class="border-b border-gray-900/10 pb-12">
             <h2 class="text-base font-semibold leading-7 text-gray-900">Profile information</h2>
-            <!--<p class="mt-1 text-sm leading-6 text-gray-600">This information will be displayed publicly so be careful what you share.</p>-->
-
             <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
               <div class="sm:col-span-4">
                 <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
@@ -209,8 +181,6 @@
                     class="rounded-md bg-white px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">Change</button>
                 </div>
               </div>
-
-
             </div>
           </div>
 
@@ -259,7 +229,7 @@
                     class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
                 </div>
               </div>
-
+              
             </div>
           </div>
         </div>
@@ -275,6 +245,5 @@
 </div>
 
 <script src="../scripts/navigation.js"></script>
-
 
 </html>

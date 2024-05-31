@@ -23,7 +23,8 @@
         <div>
           <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Username</label>
           <div class="mt-2">
-            <input id="username" name="username" type="text" autocomplete="username" minlength="6" maxlength="20" required
+            <input id="username" name="username" type="text" autocomplete="username" minlength="6" maxlength="20"
+              required
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
           </div>
         </div>
@@ -31,7 +32,8 @@
         <div>
           <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
           <div class="mt-2">
-            <input id="password" name="password" type="password" autocomplete="password" minlength="6" maxlength="20" required
+            <input id="password" name="password" type="password" autocomplete="password" minlength="6" maxlength="20"
+              required
               class="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6">
           </div>
         </div>
@@ -84,9 +86,6 @@
       </form>
 
     </div>
-
-
-
   </div>
 
   <script src="scripts/validation.js"></script>
@@ -94,13 +93,16 @@
     document.getElementById('signup').addEventListener('submit', async (e) => {
       e.preventDefault();
 
+      // references to the email and password
       const emailField = document.getElementById('email');
       const passwordField = document.getElementById('password');
 
+      // validate the email and password fields and exit if failed
       if (!validateEmail(emailField) || !CheckPassword(passwordField)) {
-        return; 
+        return;
       }
 
+      // collect form data into an object
       const formData = {
         username: document.getElementById('username').value,
         password: document.getElementById('password').value,
@@ -111,31 +113,21 @@
         zipcode: document.getElementById('zipcode').value,
       };
 
+      // send the post request 
       const response = await fetch('/signup', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json', // JSON
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(formData), // conver to JSON format
       });
 
+      // handling responses
       if (response.ok) {
         alert('You have created a new profile.  Please now open the email from Notes Simple and verify your email address.  You can login to Notes Simple after verifying your email.');
       } else {
         const result = await response.json();
-        if (result.error) {
-          if (result.error.includes("Username")) {
-            alert("Signup failed: Username already in use");
-          } else if (result.error.includes("Email")) {
-            alert("Signup failed: Email already in use");
-          } else if (result.error.includes("Phone")) {
-            alert("Signup failed: Phone number already in use");
-          } else {
-            alert("Signup failed: " + result.error);
-          }
-        } else {
-          alert('Signup failed.  Connectivity issues.  Please try again.  ');
-        }
+        alert('Signup failed, please try again.');
       }
     });
   </script>
