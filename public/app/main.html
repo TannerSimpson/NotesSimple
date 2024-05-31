@@ -6,6 +6,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="../css/output.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <title>NotesSimple</title>
 </head>
 
@@ -124,7 +125,7 @@
     </nav>
     <header class="bg-white shadow">
       <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <h1 class="text-3xl font-bold tracking-tight text-gray-900">Dashboard</h1>
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900">Note taking made simple.</h1>
       </div>
     </header>
     <main>
@@ -141,12 +142,32 @@
                       aria-controls="headlessui-tabs-panel-:r2:">Original</button><button
                       class="alm axq bib bla jt adu aez agy are arp avz awd" id="headlessui-tabs-tab-:r1:" role="tab"
                       type="button" aria-selected="false" tabindex="-1" data-headlessui-state=""
-                      aria-controls="headlessui-tabs-panel-:r3:">Output</button>
+                      aria-controls="headlessui-tabs-panel-:r3:">Word Cloud</button>
+                      <button
+                      class="highlights" id="headlessui-tabs-tab-:r1:" role="tab"
+                      type="button" aria-selected="false" tabindex="-1" data-headlessui-state=""
+                      aria-controls="headlessui-tabs-panel-:r3:">Highlights</button>
+                      <button
+                      class="summary" id="headlessui-tabs-tab-:r1:" role="tab"
+                      type="button" aria-selected="false" tabindex="-1" data-headlessui-state=""
+                      aria-controls="headlessui-tabs-panel-:r3:">Summary</button>
+                      <button
+                      class="insights" id="headlessui-tabs-tab-:r1:" role="tab"
+                      type="button" aria-selected="false" tabindex="-1" data-headlessui-state=""
+                      aria-controls="headlessui-tabs-panel-:r3:">Insights</button>
+                  </div>
+                  <div class="icons">
+                    <!-- Upload icon -->
+                    <button id="upload"> <span class="material-icons">upload_file</span> </button>
+                    <!-- Download icon -->
+                    <button id="download"><span class="material-icons">file_download</span> </button>
+                    <!-- Copy icon -->
+                    <button id="copy"><span class="material-icons">content_copy</span> </button>
                   </div>
                   <div class="lb">
                     <div class="fp adt aqk" id="headlessui-tabs-panel-:r2:" role="tabpanel" tabindex="0"
                       data-headlessui-state="selected" data-selected="" aria-labelledby="headlessui-tabs-tab-:r0:">
-                      <label for="comment" class="t">Text</label>
+                      <label for="comment" class="t"> text </label>
                       <div><textarea rows="5" name="comment" id="comment"
                           class="lu tn adu afa arp axu bbm bbs bbw bce bgc bnd bne bnq cia cic"
                           placeholder="Add your text..."></textarea></div>

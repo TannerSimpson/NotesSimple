@@ -1925,6 +1925,28 @@ select {
   margin-bottom: 20px;
 }
 
+/* Container for the buttons */
+.lx.yz {
+  position: relative; /* Ensure relative positioning to place the icons correctly */
+  display: flex;
+  align-items: center;
+}
+
+/* Container for the icons */
+.icons {
+  position: absolute;
+    top: 30px;
+    right: 40px;
+    display: flex;
+    align-items: center; /* Align icons vertically with buttons */
+    gap: 10px; /* Add space between icons */
+}
+
+/* Styling for the icons */
+.icons .material-icons {
+  font-size: 24px;
+  cursor: pointer; /* Change cursor to pointer to indicate clickable icons */
+}
 /* Styles for the tab buttons */
 .lx.yz button {
   margin-right: 10px;
@@ -1976,6 +1998,7 @@ select {
 /* Styles for the text area */
 textarea {
   width: calc(100% - 20px); /* Adjusted width */
+  height: 400px;
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 5px;
