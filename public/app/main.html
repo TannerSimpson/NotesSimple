@@ -26,7 +26,7 @@
           </div>
           <div class="hidden md:block">
             <div class="ml-4 flex items-center md:ml-6">
-              <button type="button"
+              <button id="notification-button" type="button"
                 class="relative rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                 <span class="absolute -inset-1.5"></span>
                 <span class="sr-only">View notifications</span>
@@ -125,7 +125,8 @@
     </nav>
     <header class="bg-white shadow">
       <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-        <h1 class="text-3xl font-bold tracking-tight text-gray-900">Note taking made simple.</h1>
+        <h1 class="text-3xl font-bold tracking-tight text-gray-900">Home</h1>
+        <p>Note taking made simple. </p>
       </div>
     </header>
     <main>
@@ -137,42 +138,33 @@
               <form action="#">
                 <div>
                   <div class="lx yz" role="tablist" aria-orientation="horizontal">
-                    <button
-                      class="aih axu bic adu aez agy are arp avz awd" id="headlessui-tabs-tab-:r0:" role="tab"
+                    <button class="aih axu bic adu aez agy are arp avz awd" id="headlessui-tabs-tab-:r0:" role="tab"
                       type="button" aria-selected="true" tabindex="0" data-headlessui-state="selected" data-selected=""
                       aria-controls="headlessui-tabs-panel-:r2:">Original</button>
-                    <button
-                      class="alm axq bib bla jt adu aez agy are arp avz awd" id="headlessui-tabs-tab-:r1:" role="tab"
-                      type="button" aria-selected="false" tabindex="-1" data-headlessui-state=""
-                      aria-controls="headlessui-tabs-panel-:r3:">Word Cloud</button>
-                    <button
-                      class="highlights" id="headlessui-tabs-tab-:r4:" role="tab"
-                      type="button" aria-selected="false" tabindex="-2" data-headlessui-state=""
-                      aria-controls="headlessui-tabs-panel-:r6:">Highlights</button>
-                    <button
-                      class="summary" id="headlessui-tabs-tab-:r5:" role="tab"
-                      type="button" aria-selected="false" tabindex="-3" data-headlessui-state=""
-                      aria-controls="headlessui-tabs-panel-:r7:">Summary</button>
-                    <button
-                      class="insights" id="headlessui-tabs-tab-:r8:" role="tab"
-                      type="button" aria-selected="false" tabindex="-4" data-headlessui-state=""
+                    <button class="summary" id="headlessui-tabs-tab-:r5:" role="tab" type="button" aria-selected="false"
+                      tabindex="-3" data-headlessui-state="" aria-controls="headlessui-tabs-panel-:r7:">Summary</button>
+                    <button class="alm axq bib bla jt adu aez agy are arp avz awd" id="headlessui-tabs-tab-:r1:"
+                      role="tab" type="button" aria-selected="false" tabindex="-1" data-headlessui-state=""
+                      aria-controls="headlessui-tabs-panel-:r3:">Highlights</button>
+                    <button class="insights" id="headlessui-tabs-tab-:r8:" role="tab" type="button"
+                      aria-selected="false" tabindex="-4" data-headlessui-state=""
                       aria-controls="headlessui-tabs-panel-:r10:">Insights</button>
                   </div>
                   <div class="icons">
-                    
+
                     <button id="upload"> <span class="material-icons">upload_file</span> </button>
-                    
+
                     <button id="download"><span class="material-icons">file_download</span> </button>
-                    
+
                     <button id="copy"><span class="material-icons">content_copy</span> </button>
                   </div>
                   <div class="lb">
                     <div class="fp adt aqk" id="headlessui-tabs-panel-:r2:" role="tabpanel" tabindex="0"
                       data-headlessui-state="selected" data-selected="" aria-labelledby="headlessui-tabs-tab-:r0:">
-                      <label for="comment" class="t"> text </label>
+                      <label for="comment" class="t"> &nbsp; </label> <!--blank tag in case we want to add label later-->
                       <div><textarea rows="5" name="comment" id="comment"
                           class="lu tn adu afa arp axu bbm bbs bbw bce bgc bnd bne bnq cia cic"
-                          placeholder="Add your text..."></textarea></div>
+                          placeholder="Copy and paste your text here or click the upload button to add the text from a file"></textarea></div>
                     </div><span aria-hidden="true" id="headlessui-tabs-panel-:r3:" role="tabpanel" tabindex="-1"
                       aria-labelledby="headlessui-tabs-tab-:r1:"
                       style="position: fixed; top: 1px; left: 1px; width: 1px; height: 0px; padding: 0px; margin: -1px; overflow: hidden; clip: rect(0px, 0px, 0px, 0px); white-space: nowrap; border-width: 0px;"></span>
@@ -180,7 +172,7 @@
                 </div>
                 <div class="submit-section">
                   <div class="lb lx zd"><button type="submit"
-                      class="ly yz adu ajp are aru avz awf bag bbm bir box boy bpa bph">Summarize</button></div>
+                      class="ly yz adu ajp are aru avz awf bag bbm bir box boy bpa bph">Let's go!</button></div>
                   <div class="word-count">
                     <p id="word-count-displayed">Word Count: </p>
                   </div>
@@ -193,7 +185,7 @@
     </main>
   </div>
   <script src="../scripts/navigation.js"></script>
-  <script type="module" src="../scripts/wordcloud.js"></script>
+  <script type="module" src="../scripts/highlights.js"></script>
   <script type="module" src="../scripts/mainfacade.js"></script>
 </body>
 

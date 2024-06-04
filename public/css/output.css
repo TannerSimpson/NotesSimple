@@ -2021,3 +2021,16 @@ textarea {
   border-radius: 5px; /* Optional: rounded corners */
   margin-right: 20px;
 }
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@media (min-width: 1024px) {
+  .container .lg\\:flex-1 {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

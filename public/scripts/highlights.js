@@ -1,5 +1,5 @@
 // Select the necessary elements
-const wordCloudTabPanel = document.getElementById('headlessui-tabs-panel-:r3:');
+const highlightsTabPanel = document.getElementById('headlessui-tabs-panel-:r3:');
 
 // Function to calculate word frequency
 function getWordFrequency(text) {
@@ -19,10 +19,10 @@ function displayWordFrequency(wordFrequency) {
     wordFrequency.sort((a, b) => b[1] - a[1]);
     
     // Generate HTML for displaying word frequency
-    const wordCloudPanelContent = wordFrequency.map(([word, count]) => `<p>${word}: ${count}</p>`).join('\n');
+    const highlightsPanelContent = wordFrequency.map(([word, count]) => `<p>${word}: ${count}</p>`).join('\n');
     
     // Display HTML in word count panel
-    wordCloudTabPanel.innerHTML = wordCloudPanelContent;
+    highlightsTabPanel.innerHTML = highlightsPanelContent;
 }
 
 export { getWordFrequency, displayWordFrequency };

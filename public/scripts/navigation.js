@@ -52,6 +52,11 @@ if (mobileMenuButton) {
     };
 }
 
+const notificationButton = document.getElementById("notification-button");
+notificationButton.addEventListener("click", function () {
+    alert("We are currently in the Beta release of Notes Simple");
+});
+
 
 hideMenuItems();
 hideMobileMenuItems();
