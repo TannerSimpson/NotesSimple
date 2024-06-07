@@ -1,4 +1,5 @@
 import { getWordFrequency, displayWordFrequency } from './highlights.js';
+import { getFrequencySummary, getRankSummary, displayFrequencySummary, displayRankSummary } from './summary.js';
 
 // Select the necessary elements
 const textarea = document.getElementById('comment');
@@ -41,6 +42,13 @@ function handleSubmit(event) {
     const wordFrequency = getWordFrequency(originalText);
     displayWordFrequency(wordFrequency);
     highlightsText = highlightsTabPanel.textContent; // Store the word cloud text
+
+    const text_to_summarize = originalText;
+    const frequencySummary = getFrequencySummary(text_to_summarize);
+    displayFrequencySummary(frequencySummary);
+    getRankSummary(text_to_summarize).then(rankSummary => {
+        displayRankSummary(rankSummary);
+    });
 }
 
 function switchToHighlightsTab() {
@@ -91,7 +99,25 @@ function switchToOriginalTab() {
 }
 
 function switchToSummaryTab() {
-    
+    originalTabButton.setAttribute('aria-selected', 'false');
+    originalTabButton.setAttribute('tabindex', '-1');
+    originalTabButton.classList.replace('aih', 'alm');
+    originalTabButton.classList.replace('axu', 'axq');
+
+    summaryTabButton.setAttribute('aria-selected', 'true');
+    summaryTabButton.setAttribute('tabindex', '0');
+    summaryTabButton.classList.replace('alm', 'aih');
+    summaryTabButton.classList.replace('axq', 'axu');
+
+    originalTabPanel.setAttribute('aria-hidden', 'true');
+    originalTabPanel.setAttribute('tabindex', '-1');
+    originalTabPanel.removeAttribute('data-selected');
+
+    summaryTabPanel.removeAttribute('aria-hidden');
+    summaryTabPanel.setAttribute('tabindex', '0');
+    summaryTabPanel.setAttribute('data-selected', '');
+
+    updateWordCount();
 }
 
 function switchToInsightsTab() {
