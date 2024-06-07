@@ -1,5 +1,5 @@
-import { getWordFrequency, displayWordFrequency } from './highlights.js';
-import { getFrequencySummary, getRankSummary, displayFrequencySummary, displayRankSummary } from './summary.js';
+/*import { getWordFrequency, displayWordFrequency } from './highlights.js';
+import { getAndDisplaySummary } from './summary.js';
 
 // Select the necessary elements
 const textarea = document.getElementById('comment');
@@ -17,7 +17,7 @@ const insightsTabPanel = document.getElementById('headlessui-tabs-tab-:r10:');
 let originalText = ""; // Variable to store the original text
 let highlightsText = ""; // Variable to store the word cloud text
 let SummaryText = "";
-let InsightsText = "";
+// let InsightsText = "";
 
 function mainFacade() {
 
@@ -43,12 +43,6 @@ function handleSubmit(event) {
     displayWordFrequency(wordFrequency);
     highlightsText = highlightsTabPanel.textContent; // Store the word cloud text
 
-    const text_to_summarize = originalText;
-    const frequencySummary = getFrequencySummary(text_to_summarize);
-    displayFrequencySummary(frequencySummary);
-    getRankSummary(text_to_summarize).then(rankSummary => {
-        displayRankSummary(rankSummary);
-    });
 }
 
 function switchToHighlightsTab() {
@@ -122,6 +116,102 @@ function switchToSummaryTab() {
 
 function switchToInsightsTab() {
     
+}
+
+mainFacade();*/
+
+import { getWordFrequency, displayWordFrequency } from './highlights.js';
+import { getAndDisplaySummary } from './summary.js';
+
+// Select the necessary elements
+const textarea = document.getElementById('comment');
+const wordCountDisplay = document.getElementById('word-count-displayed');
+const form = document.getElementById('text-form');
+const originalTabButton = document.getElementById('headlessui-tabs-tab-:r0:');
+const highlightsTabButton = document.getElementById('headlessui-tabs-tab-:r1:');
+const summaryTabButton = document.getElementById('headlessui-tabs-tab-:r5:');
+const insightsTabButton = document.getElementById('headlessui-tabs-tab-:r8:');
+
+const originalTabPanel = document.getElementById('headlessui-tabs-panel-:r2:');
+const highlightsTabPanel = document.getElementById('headlessui-tabs-panel-:r3:');
+const summaryTabPanel = document.getElementById('headlessui-tabs-panel-:r7:');
+const insightsTabPanel = document.getElementById('headlessui-tabs-panel-:r10:');
+
+let originalText = ""; // Variable to store the original text
+let highlightsText = ""; // Variable to store the word cloud text
+let summaryText = ""; // Variable to store the summary text
+
+function mainFacade() {
+    // Calls word count function and ties to text area input
+    textarea.addEventListener('input', updateWordCount);
+    form.addEventListener('submit', handleSubmit);
+    originalTabButton.addEventListener('click', switchToOriginalTab);
+    highlightsTabButton.addEventListener('click', switchToHighlightsTab);
+    summaryTabButton.addEventListener('click', switchToSummaryTab);
+    insightsTabButton.addEventListener('click', switchToInsightsTab);
+}
+
+function updateWordCount() {
+    const text = textarea.value;
+    const wordCount = text.split(/\s+/).filter(word => word.length > 0).length;
+    wordCountDisplay.textContent = `Word Count: ${wordCount}`;
+}
+
+async function handleSubmit(event) {
+    event.preventDefault();
+    originalText = textarea.value; // Store the original text
+
+    const wordFrequency = getWordFrequency(originalText);
+    displayWordFrequency(wordFrequency);
+    highlightsText = highlightsTabPanel.textContent; // Store the word cloud text
+
+    // Get and display summary
+    summaryText = await getAndDisplaySummary(originalText);
+    summaryTabPanel.innerHTML = summaryText; // Display the summary in the summary tab panel
+}
+
+function switchToHighlightsTab() {
+    switchTab(highlightsTabButton, highlightsTabPanel);
+}
+
+function switchToOriginalTab() {
+    switchTab(originalTabButton, originalTabPanel);
+    textarea.value = originalText; // Update textarea with original text
+    updateWordCount(); // Update word count
+}
+
+function switchToSummaryTab() {
+    switchTab(summaryTabButton, summaryTabPanel);
+}
+
+function switchToInsightsTab() {
+    switchTab(insightsTabButton, insightsTabPanel);
+}
+
+function switchTab(tabButton, tabPanel) {
+    document.querySelectorAll('[role="tab"]').forEach(tab => {
+        tab.setAttribute('aria-selected', 'false');
+        tab.setAttribute('tabindex', '-1');
+        tab.classList.replace('aih', 'alm');
+        tab.classList.replace('axu', 'axq');
+    });
+
+    document.querySelectorAll('[role="tabpanel"]').forEach(panel => {
+        panel.setAttribute('aria-hidden', 'true');
+        panel.setAttribute('tabindex', '-1');
+        panel.removeAttribute('data-selected');
+        panel.style.display = 'none';
+    });
+
+    tabButton.setAttribute('aria-selected', 'true');
+    tabButton.setAttribute('tabindex', '0');
+    tabButton.classList.replace('alm', 'aih');
+    tabButton.classList.replace('axq', 'axu');
+
+    tabPanel.removeAttribute('aria-hidden');
+    tabPanel.setAttribute('tabindex', '0');
+    tabPanel.setAttribute('data-selected', '');
+    tabPanel.style.display = 'block';
 }
 
 mainFacade();
