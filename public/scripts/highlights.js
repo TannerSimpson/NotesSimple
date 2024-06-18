@@ -2,7 +2,7 @@
 const highlightsTabPanel = document.getElementById('headlessui-tabs-panel-:r3:');
 
 // Function to calculate word frequency
-function getWordFrequency(text) {
+function getWordFrequency(text) { 
     const words = text.toLowerCase().match(/\b\w+\b/g) || [];
     const frequency = {};
 
