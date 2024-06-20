@@ -14,14 +14,15 @@ const highlightsTabPanel = document.getElementById('headlessui-tabs-panel-:r3:')
 const summaryTabPanel = document.getElementById('headlessui-tabs-panel-:r7:');
 const insightsTabPanel = document.getElementById('headlessui-tabs-panel-:r10:');
 
-const highlightsIcon = document.getElementById('highlights-icon'); // Select the new icon element
+const highlightsIcon = document.getElementById('highlights-icon');
+const loadingBarContainer = document.getElementById('loading-bar-container');
+const loadingBar = document.getElementById('loading-bar');
 
 let originalText = ""; // Variable to store the original text
 let highlightsText = ""; // Variable to store the word cloud text
 let summaryText = ""; // Variable to store the summary text
 
 function mainFacade() {
-    // Calls word count function and ties to text area input
     textarea.addEventListener('input', updateWordCount);
     form.addEventListener('submit', handleSubmit);
     form.addEventListener('submit', switchToSummaryTab);
@@ -33,13 +34,22 @@ function mainFacade() {
 }
 
 function updateWordCount() {
-    const text = textarea.value;
+    let text;
+    if (originalTabButton.getAttribute('aria-selected') === 'true') {
+        text = textarea.value;
+    } else if (highlightsTabButton.getAttribute('aria-selected') === 'true') {
+        text = highlightsTabPanel.textContent;
+    } else if (summaryTabButton.getAttribute('aria-selected') === 'true') {
+        text = summaryTabPanel.textContent;
+    } else {
+        text = '';
+    }
     const wordCount = text.split(/\s+/).filter(word => word.length > 0).length;
     wordCountDisplay.textContent = `Word Count: ${wordCount}`;
 }
 
 async function handleSubmit(event) {
-    event.preventDefault();
+    /*event.preventDefault();
     originalText = textarea.value; // Store the original text
 
     const wordFrequency = getWordFrequency(originalText);
@@ -59,7 +69,50 @@ async function handleSubmit(event) {
 
     const data = await response.json();
     summaryText = data.summary;
+    summaryTabPanel.innerHTML = summaryText; // Display the summary in the summary tab panel*/
+
+    event.preventDefault();
+    originalText = textarea.value; // Store the original text
+
+    const wordFrequency = getWordFrequency(originalText);
+    displayWordFrequency(wordFrequency);
+    highlightsText = highlightsTabPanel.textContent; // Store the word cloud text
+
+    highlightsIcon.style.display = 'block'; // Show the highlights icon
+
+    // Display loading bar
+    loadingBarContainer.style.display = 'block';
+    loadingBar.style.width = '0%';
+
+    // Simulate loading progress
+    let progress = 0;
+    const loadingInterval = setInterval(() => {
+        progress += 10;
+        loadingBar.style.width = `${progress}%`;
+        if (progress >= 100) {
+            clearInterval(loadingInterval);
+        }
+    }, 1300);
+
+    // Send text to the server for summarization
+    const response = await fetch('/summarize', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ text: originalText })
+    });
+
+    const data = await response.json();
+    summaryText = data.summary;
     summaryTabPanel.innerHTML = summaryText; // Display the summary in the summary tab panel
+    updateWordCount(); // Update word count after generating summary
+
+
+    // Hide loading bar
+    clearInterval(loadingInterval);
+    loadingBarContainer.style.display = 'none';
+    loadingBar.style.width = '0%';
 }
 
 function switchToHighlightsTab() {
@@ -70,8 +123,8 @@ function switchToHighlightsTab() {
 
 function switchToOriginalTab() {
     switchTab(originalTabButton, originalTabPanel);
-    textarea.value = originalText; 
-    updateWordCount(); 
+    textarea.value = originalText;
+    updateWordCount();
 }
 
 function switchToSummaryTab() {

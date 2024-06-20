@@ -2038,6 +2038,14 @@ textarea {
   font-size: 20px;
 }
 
+#loading-bar-container {
+  display: none;
+  position: relative;
+  height: 4px;
+  background-color: #f3f3f3;
+  margin-top: 10px; /* Adjust the top margin to add space */
+}
+
 @media (min-width: 1024px) {
   .container .lg\\:flex-1 {
     display: flex;
