@@ -30,39 +30,17 @@ const pool = new Pool({
   }
 });
 
-/*let summarizationPipe;
+let summarizationPipe;
 (async () => {
   const { pipeline } = await import('@xenova/transformers');
   summarizationPipe = await pipeline('summarization');
-})();*/
-
-let summarizationPipe;
-
-const transformers = require('@xenova/transformers');
-
-(async () => {
-  summarizationPipe = await transformers.pipeline('summarization');
 })();
 
-// Endpoint to handle text summarization
-/*app.post('/summarize', async (req, res) => {
-  if (!summarizationPipe) {
-    return res.status(503).send({ error: 'Summarization pipeline not ready' });
-  }
-
-  const inputText = req.body.text;
-  if (!inputText) {
-    return res.status(400).send({ error: 'Text input is required' });
-  }
-
-  try {
-    const result = await summarizationPipe(inputText, { max_length: 100, min_length: 50 });
-    res.send({ summary: result[0].summary_text });
-  } catch (error) {
-    console.error('Error during summarization:', error);
-    res.status(500).send({ error: 'Failed to summarize text' });
-  }
-});*/
+/*let summarizationPipe;
+const transformers = require('@xenova/transformers');
+(async () => {
+  summarizationPipe = await transformers.pipeline('summarization');
+})();*/
 
 app.post('/summarize', async (req, res) => {
   if (!summarizationPipe) {
