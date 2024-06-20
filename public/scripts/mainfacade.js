@@ -49,28 +49,7 @@ function updateWordCount() {
 }
 
 async function handleSubmit(event) {
-    /*event.preventDefault();
-    originalText = textarea.value; // Store the original text
-
-    const wordFrequency = getWordFrequency(originalText);
-    displayWordFrequency(wordFrequency);
-    highlightsText = highlightsTabPanel.textContent; // Store the word cloud text
-
-    highlightsIcon.style.display = 'block'; // Show the highlights icon
-
-    // Send text to the server for summarization
-    const response = await fetch('/summarize', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ text: originalText })
-    });
-
-    const data = await response.json();
-    summaryText = data.summary;
-    summaryTabPanel.innerHTML = summaryText; // Display the summary in the summary tab panel*/
-
+    
     event.preventDefault();
     originalText = textarea.value; // Store the original text
 
@@ -84,7 +63,7 @@ async function handleSubmit(event) {
     loadingBarContainer.style.display = 'block';
     loadingBar.style.width = '0%';
 
-    // Simulate loading progress
+    // loading progress
     let progress = 0;
     const loadingInterval = setInterval(() => {
         progress += 10;
