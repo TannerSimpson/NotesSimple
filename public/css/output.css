@@ -2028,6 +2028,16 @@ textarea {
   align-items: center;
 }
 
+/* Styles for the highlights icon */
+.highlights-icon {
+  display: none; /* Initially hidden */
+  position: absolute;
+  top: -10px;
+  right: 800px;
+  color: rgba(17,60,115,255);
+  font-size: 20px;
+}
+
 @media (min-width: 1024px) {
   .container .lg\\:flex-1 {
     display: flex;

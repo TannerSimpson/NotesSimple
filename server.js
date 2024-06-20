@@ -37,7 +37,7 @@ let summarizationPipe;
 })();
 
 // Endpoint to handle text summarization
-app.post('/summarize', async (req, res) => {
+/*app.post('/summarize', async (req, res) => {
   if (!summarizationPipe) {
     return res.status(503).send({ error: 'Summarization pipeline not ready' });
   }
@@ -49,6 +49,49 @@ app.post('/summarize', async (req, res) => {
 
   try {
     const result = await summarizationPipe(inputText, { max_length: 100, min_length: 50 });
+    res.send({ summary: result[0].summary_text });
+  } catch (error) {
+    console.error('Error during summarization:', error);
+    res.status(500).send({ error: 'Failed to summarize text' });
+  }
+});*/
+
+app.post('/summarize', async (req, res) => {
+  if (!summarizationPipe) {
+    return res.status(503).send({ error: 'Summarization pipeline not ready' });
+  }
+
+  const inputText = req.body.text;
+  if (!inputText) {
+    return res.status(400).send({ error: 'Text input is required' });
+  }
+
+  // Function to count words in the text
+  const wordCount = (text) => text.split(/\s+/).filter(word => word.length > 0).length;
+
+  // Determine the number of words in the input text
+  const numWords = wordCount(inputText);
+
+  // Determine the number of sentences for the summary based on the word count
+  let numSentences;
+  if (numWords <= 2000) {
+    numSentences = 4; // XS
+  } else if (numWords <= 4000) {
+    numSentences = 8; // S
+  } else if (numWords <= 6000) {
+    numSentences = 15; // M
+  } else if (numWords <= 10000) {
+    numSentences = 20; // L
+  } else {
+    numSentences = 24; // XL
+  }
+
+  // Convert the number of sentences to max_length and min_length parameters for summarization
+  const max_length = numSentences * 20; // approximate max length
+  const min_length = numSentences * 10; // approximate min length
+
+  try {
+    const result = await summarizationPipe(inputText, { max_length, min_length });
     res.send({ summary: result[0].summary_text });
   } catch (error) {
     console.error('Error during summarization:', error);

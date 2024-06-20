@@ -14,6 +14,8 @@ const highlightsTabPanel = document.getElementById('headlessui-tabs-panel-:r3:')
 const summaryTabPanel = document.getElementById('headlessui-tabs-panel-:r7:');
 const insightsTabPanel = document.getElementById('headlessui-tabs-panel-:r10:');
 
+const highlightsIcon = document.getElementById('highlights-icon'); // Select the new icon element
+
 let originalText = ""; // Variable to store the original text
 let highlightsText = ""; // Variable to store the word cloud text
 let summaryText = ""; // Variable to store the summary text
@@ -44,6 +46,8 @@ async function handleSubmit(event) {
     displayWordFrequency(wordFrequency);
     highlightsText = highlightsTabPanel.textContent; // Store the word cloud text
 
+    highlightsIcon.style.display = 'block'; // Show the highlights icon
+
     // Send text to the server for summarization
     const response = await fetch('/summarize', {
         method: 'POST',
@@ -61,13 +65,13 @@ async function handleSubmit(event) {
 function switchToHighlightsTab() {
     switchTab(highlightsTabButton, highlightsTabPanel);
     updateWordCount();
-    updateWordCount();
+    highlightsIcon.style.display = 'none'; // Hide the highlights icon when the tab is clicked
 }
 
 function switchToOriginalTab() {
     switchTab(originalTabButton, originalTabPanel);
-    textarea.value = originalText; // Update textarea with original text
-    updateWordCount(); // Update word count
+    textarea.value = originalText; 
+    updateWordCount(); 
 }
 
 function switchToSummaryTab() {
@@ -104,6 +108,7 @@ function switchTab(tabButton, tabPanel) {
     tabPanel.setAttribute('tabindex', '0');
     tabPanel.setAttribute('data-selected', '');
     tabPanel.style.display = 'block';
+    updateWordCount();
 }
 
 mainFacade();
