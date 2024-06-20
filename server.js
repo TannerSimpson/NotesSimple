@@ -30,10 +30,18 @@ const pool = new Pool({
   }
 });
 
-let summarizationPipe;
+/*let summarizationPipe;
 (async () => {
   const { pipeline } = await import('@xenova/transformers');
   summarizationPipe = await pipeline('summarization');
+})();*/
+
+let summarizationPipe;
+
+const transformers = require('@xenova/transformers');
+
+(async () => {
+  summarizationPipe = await transformers.pipeline('summarization');
 })();
 
 // Endpoint to handle text summarization
