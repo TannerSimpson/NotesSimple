@@ -4,7 +4,9 @@ const path = require("path");
 
 const app = express();
 app.use(express.static("public"));
-app.use(express.json());
+//app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 // load environment variables from .env file
 const dotenv = require('dotenv');
@@ -33,7 +35,7 @@ const pool = new Pool({
 let summarizationPipe;
 (async () => {
   const { pipeline } = await import('@xenova/transformers');
-  summarizationPipe = await pipeline('summarization');
+  summarizationPipe = await pipeline('summarization', 't5-small');
 })();
 
 /*let summarizationPipe;

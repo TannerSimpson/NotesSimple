@@ -3,7 +3,7 @@ const highlightsTabPanel = document.getElementById('headlessui-tabs-panel-:r3:')
 
 // Function to calculate word frequency
 function getWordFrequency(text) {
-    const ignoreWords = ["and", "or", "but", "nor", "for", "so", "yet", "I", "you", "he", "she", "it", "we", "they", "me", "him", "her", "us", "them", "my", "your", "his", "her", "its", "our", "their", "mine", "yours", "hers", "ours", "theirs", "the", "to", "a", "in", "of", "on", "too", "s", "is", "not", "about", "after", "above", "at", "by", "beside", "just", "most", "more", "less", "least", "with", "from", "that", "as", "this", "those", "huge", "big", "large", "small", "little"];
+    const ignoreWords = ["and", "or", "but", "nor", "for", "so", "yet", "I", "you", "he", "she", "it", "we", "they", "me", "him", "her", "us", "them", "my", "your", "his", "her", "its", "our", "their", "mine", "yours", "hers", "ours", "theirs", "the", "to", "a", "in", "of", "on", "too", "s", "is", "not", "about", "after", "above", "at", "by", "beside", "just", "most", "more", "less", "least", "with", "from", "that", "as", "this", "those", "huge", "big", "large", "small", "little", "an"];
     const words = text.toLowerCase().match(/\b\w+\b/g) || [];
     const frequency = {};
 
