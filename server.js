@@ -10,6 +10,7 @@ app.use(express.json());
 const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
 dotenv.config();
+const NodeCache = require('node-cache');
 
 const sgMail = require('@sendgrid/mail')
 sgMail.setApiKey(process.env.SENDGRID_API_KEY)
@@ -31,6 +32,8 @@ const pool = new Pool({
 });
 
 let summarizationPipe;
+const summaryCache = new NodeCache({ stdTTL: 3600 }); // cache for one hour
+
 (async () => {
   const { pipeline } = await import('@xenova/transformers');
   summarizationPipe = await pipeline('summarization');
@@ -52,33 +55,37 @@ app.post('/summarize', async (req, res) => {
     return res.status(400).send({ error: 'Text input is required' });
   }
 
-  // Function to count words in the text
-  const wordCount = (text) => text.split(/\s+/).filter(word => word.length > 0).length;
+  const cacheKey = `summary_${inputText}`;
+  const cachedSummary = summaryCache.get(cacheKey);
 
-  // Determine the number of words in the input text
-  const numWords = wordCount(inputText);
-
-  // Determine the number of sentences for the summary based on the word count
-  let numSentences;
-  if (numWords <= 2000) {
-    numSentences = 4; // XS
-  } else if (numWords <= 4000) {
-    numSentences = 8; // S
-  } else if (numWords <= 6000) {
-    numSentences = 15; // M
-  } else if (numWords <= 10000) {
-    numSentences = 20; // L
-  } else {
-    numSentences = 24; // XL
+  if (cachedSummary) {
+    return res.send({ summary: cachedSummary });
   }
 
-  // Convert the number of sentences to max_length and min_length parameters for summarization
-  const max_length = numSentences * 20; // approximate max length
-  const min_length = numSentences * 10; // approximate min length
+  const wordCount = (text) => text.split(/\s+/).filter(word => word.length > 0).length;
+  const numWords = wordCount(inputText);
+
+  let numSentences;
+  if (numWords <= 2000) {
+    numSentences = 4;
+  } else if (numWords <= 4000) {
+    numSentences = 8;
+  } else if (numWords <= 6000) {
+    numSentences = 15;
+  } else if (numWords <= 10000) {
+    numSentences = 20;
+  } else {
+    numSentences = 24;
+  }
+
+  const max_length = numSentences * 20;
+  const min_length = numSentences * 10;
 
   try {
     const result = await summarizationPipe(inputText, { max_length, min_length });
-    res.send({ summary: result[0].summary_text });
+    const summary = result[0].summary_text;
+    summaryCache.set(cacheKey, summary);
+    res.send({ summary });
   } catch (error) {
     console.error('Error during summarization:', error);
     res.status(500).send({ error: 'Failed to summarize text' });
