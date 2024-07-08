@@ -1,19 +1,17 @@
 const express = require("express");
 const { Pool } = require("pg");
 const path = require("path");
+const dotenv = require('dotenv');
+const jwt = require('jsonwebtoken');
+const NodeCache = require('node-cache');
+const sgMail = require('@sendgrid/mail');
+
+dotenv.config();
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const app = express();
 app.use(express.static("public"));
 app.use(express.json());
-
-// load environment variables from .env file
-const dotenv = require('dotenv');
-const jwt = require('jsonwebtoken');
-dotenv.config();
-const NodeCache = require('node-cache');
-
-const sgMail = require('@sendgrid/mail')
-sgMail.setApiKey(process.env.SENDGRID_API_KEY)
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "/index.html"));
@@ -37,19 +35,10 @@ const summaryCache = new NodeCache({ stdTTL: 3600 }); // cache for one hour
 (async () => {
   const { pipeline } = await import('@xenova/transformers');
   summarizationPipe = await pipeline('summarization');
+  console.log("Summarization pipeline is ready");
 })();
 
-/*let summarizationPipe;
-const transformers = require('@xenova/transformers');
-(async () => {
-  summarizationPipe = await transformers.pipeline('summarization');
-})();*/
-
 app.post('/summarize', async (req, res) => {
-  if (!summarizationPipe) {
-    return res.status(503).send({ error: 'Summarization pipeline not ready' });
-  }
-
   const inputText = req.body.text;
   if (!inputText) {
     return res.status(400).send({ error: 'Text input is required' });
@@ -59,8 +48,11 @@ app.post('/summarize', async (req, res) => {
   const cachedSummary = summaryCache.get(cacheKey);
 
   if (cachedSummary) {
+    console.log("Cache hit for:", cacheKey);
     return res.send({ summary: cachedSummary });
   }
+
+  console.log("Cache miss for:", cacheKey);
 
   const wordCount = (text) => text.split(/\s+/).filter(word => word.length > 0).length;
   const numWords = wordCount(inputText);
