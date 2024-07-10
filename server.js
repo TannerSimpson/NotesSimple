@@ -30,7 +30,7 @@ const pool = new Pool({
 });
 
 let summarizationPipe;
-const summaryCache = new NodeCache({ stdTTL: 3600 }); // cache for one hour
+const summaryCache = new NodeCache({ stdTTL: 86400 }); // cache for 24 hours
 
 (async () => {
   const { pipeline } = await import('@xenova/transformers');
@@ -39,20 +39,13 @@ const summaryCache = new NodeCache({ stdTTL: 3600 }); // cache for one hour
 })();
 
 app.post('/summarize', async (req, res) => {
+  const start = Date.now();
   const inputText = req.body.text;
   if (!inputText) {
     return res.status(400).send({ error: 'Text input is required' });
   }
 
-  const cacheKey = `summary_${inputText}`;
-  const cachedSummary = summaryCache.get(cacheKey);
-
-  if (cachedSummary) {
-    console.log("Cache hit for:", cacheKey);
-    return res.send({ summary: cachedSummary });
-  }
-
-  console.log("Cache miss for:", cacheKey);
+  console.log("Received input text:", inputText);
 
   const wordCount = (text) => text.split(/\s+/).filter(word => word.length > 0).length;
   const numWords = wordCount(inputText);
@@ -74,9 +67,12 @@ app.post('/summarize', async (req, res) => {
   const min_length = numSentences * 10;
 
   try {
+    const summarizeStart = Date.now();
     const result = await summarizationPipe(inputText, { max_length, min_length });
+    console.log("Summarization time:", Date.now() - summarizeStart, "ms");
+
     const summary = result[0].summary_text;
-    summaryCache.set(cacheKey, summary);
+    console.log("Total time:", Date.now() - start, "ms");
     res.send({ summary });
   } catch (error) {
     console.error('Error during summarization:', error);

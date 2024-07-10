@@ -15,8 +15,7 @@ const summaryTabPanel = document.getElementById('headlessui-tabs-panel-:r7:');
 const insightsTabPanel = document.getElementById('headlessui-tabs-panel-:r10:');
 
 const highlightsIcon = document.getElementById('highlights-icon');
-const loadingBarContainer = document.getElementById('loading-bar-container');
-const loadingBar = document.getElementById('loading-bar');
+//const loadingMessage = document.getElementById('loading-message');
 
 let originalText = ""; // Variable to store the original text
 let highlightsText = ""; // Variable to store the word cloud text
@@ -25,7 +24,6 @@ let summaryText = ""; // Variable to store the summary text
 function mainFacade() {
     textarea.addEventListener('input', updateWordCount);
     form.addEventListener('submit', handleSubmit);
-    form.addEventListener('submit', switchToSummaryTab);
     form.addEventListener('submit', switchToSummaryTab);
     originalTabButton.addEventListener('click', switchToOriginalTab);
     highlightsTabButton.addEventListener('click', switchToHighlightsTab);
@@ -49,7 +47,7 @@ function updateWordCount() {
 }
 
 async function handleSubmit(event) {
-    
+
     event.preventDefault();
     originalText = textarea.value; // Store the original text
 
@@ -59,19 +57,21 @@ async function handleSubmit(event) {
 
     highlightsIcon.style.display = 'block'; // Show the highlights icon
 
-    // Display loading bar
-    loadingBarContainer.style.display = 'block';
-    loadingBar.style.width = '0%';
+    summaryTabPanel.innerHTML = '';
 
-    // loading progress
-    let progress = 0;
-    const loadingInterval = setInterval(() => {
-        progress += 10;
-        loadingBar.style.width = `${progress}%`;
-        if (progress >= 100) {
-            clearInterval(loadingInterval);
-        }
-    }, 1300);
+    //loading
+    const loadingMessage = document.createElement('div');
+    loadingMessage.id = 'loading-message';
+
+    const loadingText = document.createElement('p');
+    loadingText.textContent = 'Generating Summary';
+
+    const loadingSpinner = document.createElement('div');
+    loadingSpinner.classList.add('loading-spinner');
+
+    loadingMessage.appendChild(loadingText);
+    loadingMessage.appendChild(loadingSpinner);
+    summaryTabPanel.appendChild(loadingMessage);
 
     // Send text to the server for summarization
     const response = await fetch('/summarize', {
@@ -87,11 +87,8 @@ async function handleSubmit(event) {
     summaryTabPanel.innerHTML = summaryText; // Display the summary in the summary tab panel
     updateWordCount(); // Update word count after generating summary
 
+    loadingMessage.remove();
 
-    // Hide loading bar
-    clearInterval(loadingInterval);
-    loadingBarContainer.style.display = 'none';
-    loadingBar.style.width = '0%';
 }
 
 function switchToHighlightsTab() {
@@ -144,4 +141,3 @@ function switchTab(tabButton, tabPanel) {
 }
 
 mainFacade();
-
