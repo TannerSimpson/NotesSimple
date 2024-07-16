@@ -29,29 +29,29 @@ function getShortDef(word) {
 
 // Function to display the definition in the highlights section
 function displayDefinition(word, definition) {
-    console.log('Displaying definition for:', word);
-  
-    // Create a text node for the definition
-    const definitionTextNode = document.createTextNode(`: ${definition}`);
-  
-    // Find the parent element of the clicked word
-    const wordElem = document.querySelector(`.clickable-word[data-word="${word}"]`);
-    if (wordElem) {
-      // Append the definition text node after the clicked word
-      wordElem.parentNode.insertBefore(definitionTextNode, wordElem.nextSibling);
-    } else {
-      console.error('Clicked word element not found');
-    }
+  console.log('Displaying definition for:', word);
+
+  // Create a text node for the definition
+  const definitionTextNode = document.createTextNode(`: ${definition}`);
+
+  // Find the parent element of the clicked word
+  const wordElem = document.querySelector(`.clickable-word[data-word="${word}"]`);
+  if (wordElem) {
+    // Append the definition text node after the clicked word
+    wordElem.parentNode.insertBefore(definitionTextNode, wordElem.nextSibling);
+  } else {
+    console.error('Clicked word element not found');
   }
+}
 
 // Function to calculate word frequency
 function getWordFrequency(text) {
-  const ignoreWords = ["and", "or", "but", "nor", "for", "so", "yet", "I", "you", "he", "she", "it", "we", "they", "me", "him", "her", "us", "them", "my", "your", "his", "her", "its", "our", "their", "mine", "yours", "hers", "ours", "theirs", "the", "to", "a", "in", "of", "on", "too", "s", "is", "not", "about", "after", "above", "at", "by", "beside", "just", "most", "more", "less", "least", "with", "from", "that", "as", "this", "those", "huge", "big", "large", "small", "little", "an"];
+  const ignoreWords = ["and", "or", "but", "nor", "for", "so", "yet", "I", "you", "he", "she", "it", "we", "they", "me", "him", "her", "us", "them", "my", "your", "his", "her", "its", "our", "their", "mine", "yours", "hers", "ours", "theirs", "the", "to", "a", "in", "of", "on", "too", "s", "is", "not", "about", "after", "above", "at", "by", "beside", "just", "most", "more", "less", "least", "with", "from", "that", "as", "this", "those", "huge", "big", "large", "small", "little", "an", "be", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
   const words = text.toLowerCase().match(/\b\w+\b/g) || [];
   const frequency = {};
 
   words.forEach(word => {
-    if (!ignoreWords.includes(word)) {
+    if (!ignoreWords.includes(word) && !/^\d+$/.test(word)) {
       frequency[word] = (frequency[word] || 0) + 1;
     }
   });
@@ -61,41 +61,41 @@ function getWordFrequency(text) {
 
 // Function to display word frequency
 function displayWordFrequency(wordFrequency) {
-    const highlightsTabPanel = document.getElementById('headlessui-tabs-panel-:r3:');
-    const highlightsPanelContent = wordFrequency.map(([word, count], index) => {
-      let fontSize;
-      switch (index) {
-        case 0:
-          fontSize = 40;
-          break;
-        case 1:
-          fontSize = 34;
-          break;
-        case 2:
-          fontSize = 28;
-          break;
-        case 3:
-          fontSize = 24;
-          break;
-        case 4:
-          fontSize = 20;
-          break;
-        default:
-          fontSize = 16;
-      }
-      return `<p style="font-size:${fontSize}px;"><strong class="clickable-word" data-word="${word}">${word}</strong></p>`;
-    }).join('\n');
-  
-    highlightsTabPanel.innerHTML = highlightsPanelContent;
-  
-    // Add event listeners to words
-    document.querySelectorAll('.clickable-word').forEach(wordElem => {
-      wordElem.addEventListener('click', (event) => {
-        const clickedWord = event.target.dataset.word;
-        console.log('Word clicked:', clickedWord);
-        getShortDef(clickedWord);
-      });
+  const highlightsTabPanel = document.getElementById('headlessui-tabs-panel-:r3:');
+  const highlightsPanelContent = wordFrequency.map(([word, count], index) => {
+    let fontSize;
+    switch (index) {
+      case 0:
+        fontSize = 40;
+        break;
+      case 1:
+        fontSize = 34;
+        break;
+      case 2:
+        fontSize = 28;
+        break;
+      case 3:
+        fontSize = 24;
+        break;
+      case 4:
+        fontSize = 20;
+        break;
+      default:
+        fontSize = 16;
+    }
+    return `<p style="font-size:${fontSize}px;"><strong class="clickable-word" data-word="${word}">${word}</strong></p>`;
+  }).join('\n');
+
+  highlightsTabPanel.innerHTML = highlightsPanelContent;
+
+  // Add event listeners to words
+  document.querySelectorAll('.clickable-word').forEach(wordElem => {
+    wordElem.addEventListener('click', (event) => {
+      const clickedWord = event.target.dataset.word;
+      console.log('Word clicked:', clickedWord);
+      getShortDef(clickedWord);
     });
-  }
+  });
+}
 
 export { getWordFrequency, displayWordFrequency, getShortDef };
