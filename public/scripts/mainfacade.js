@@ -1,4 +1,4 @@
-import { getWordFrequency, displayWordFrequency } from './highlights.js';
+import { getWordFrequency, displayWordFrequency, getShortDef} from './highlights.js';
 
 // Select the necessary elements
 const textarea = document.getElementById('comment');
