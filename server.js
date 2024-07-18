@@ -197,10 +197,11 @@ app.post("/login", async (req, res) => {
       const user = result.rows[0]; // get user details from query result
       const jwtSecretKey = process.env.JWT_SECRET_KEY; // get JWT key from .env file
       // generate token with user's username and email valid for one hour
-      const token = jwt.sign({ username: user.username, email: user.email }, jwtSecretKey, { expiresIn: '1h' });
+      const token = jwt.sign({ username: user.username, email: user.email }, jwtSecretKey, { expiresIn: '6h' });
+      res.json({ token });
 
       // handling response
-      res.status(200).json({ message: "Login successful", token });
+     // res.status(200).json({ message: "Login successful", token });
     } else {
       res.status(401).send("Invalid credentials or email not verified");
     }
@@ -237,6 +238,30 @@ function validateToken(req, res, next) {
   }
 
 }
+
+// Endpoint to get user profile data
+app.get("/profile", validateToken, async (req, res) => {
+  try {
+    const client = await pool.connect();
+    const query = `
+      SELECT username, firstname, lastname, email, phone, zipcode 
+      FROM accounts 
+      WHERE username = $1
+    `;
+    const values = [req.user.username];
+    const result = await client.query(query, values);
+    client.release();
+
+    if (result.rows.length > 0) {
+      res.status(200).json(result.rows[0]);
+    } else {
+      res.status(404).json({ error: "User not found" });
+    }
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+    res.status(500).json({ error: "Internal server error", details: error.message });
+  }
+});
 
 // start the app on port 3000
 app.listen(3000, () => {
