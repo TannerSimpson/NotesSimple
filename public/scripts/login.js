@@ -19,6 +19,8 @@ document.getElementById('loginForm').addEventListener('submit', async function(e
         const data = await response.json();
         // Save the token in localStorage or a cookie
         localStorage.setItem('token', data.token);
+        localStorage.setItem('username', username);
+        localStorage.setItem('password', password);
   
         // Redirect to main.html
         window.location.href = '../app/main.html';

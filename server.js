@@ -239,7 +239,28 @@ function validateToken(req, res, next) {
 
 }
 
+app.post('/api/profile', async (req, res) => {
+  const { username, password } = req.body;
+
+  try {
+    const client = await pool.connect();
+    const query = 'SELECT username, firstname, lastname, email, phone, zipcode FROM accounts WHERE username = $1 AND password = $2';
+    const result = await client.query(query, [username, password]);
+    client.release();
+
+    if (result.rows.length > 0) {
+      res.json(result.rows[0]);
+    } else {
+      res.status(404).send('User not found');
+    }
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+    res.status(500).send('Internal server error');
+  }
+});
+
 // Endpoint to get user profile data
+/*
 app.get("/profile", validateToken, async (req, res) => {
   try {
     const client = await pool.connect();
@@ -262,6 +283,26 @@ app.get("/profile", validateToken, async (req, res) => {
     res.status(500).json({ error: "Internal server error", details: error.message });
   }
 });
+
+
+app.get('/api/profile/:username', async (req, res) => {
+  const username = req.params.username;
+  try {
+    const client = await pool.connect();
+    const query = 'SELECT username, firstname, lastname, email, phone, zipcode FROM accounts WHERE username = $1';
+    const result = await client.query(query, [username]);
+    client.release();
+
+    if (result.rows.length > 0) {
+      res.json(result.rows[0]);
+    } else {
+      res.status(404).send('User not found');
+    }
+  } catch (error) {
+    console.error('Error fetching user profile:', error);
+    res.status(500).send('Internal server error');
+  }
+});*/
 
 // start the app on port 3000
 app.listen(3000, () => {
