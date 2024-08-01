@@ -82,38 +82,23 @@ app.post('/summarize', async (req, res) => {
 });
 
 // Update the DB from the signup page
-// using Twilio SendGrid's v3 Node.js Library sending out the email verification 
-
-// Endpoint to handle user signup
 app.post("/signup", async (req, res) => {
-  // Destructure the user data from the request body
   const { username, password, firstname, lastname, email, phone, zipcode } = req.body;
 
   try {
-    // Connect to the SQL database
     const client = await pool.connect();
-
-    // SQL query to insert new user data into the accounts table
     const query = `
       INSERT INTO accounts (username, password, firstname, lastname, email, phone, zipcode) 
       VALUES ($1, $2, $3, $4, $5, $6, $7)
     `;
-
-    // Values to be used in the query
     const values = [username, password, firstname, lastname, email, phone, zipcode];
-
-    // Execute the query with the provided values
     await client.query(query, values);
-
-    // Release the database client back to the pool
     client.release();
 
-    // Create the email verification template
     const HTMLtemplate = `
     <div style="font-family: inherit; text-align: left"><span style="font-family: verdana, geneva, sans-serif">Thank you for signing up with Notes Simple. &nbsp;Please click the link below to verify your email address and log into Notes Simple.</span></div><br><div style="font-family: inherit; text-align: left"><span style="font-family: verdana, geneva, sans-serif"><a href="https://notessimple-oaca.onrender.com/checkemail.html?x=${email}">Click here to verify your email address</a></span></div>
     `;
 
-    // Email message details
     const msg = {
       to: email,
       from: 'admin@notessimple.com',
@@ -122,48 +107,34 @@ app.post("/signup", async (req, res) => {
       html: HTMLtemplate,
     }
 
-    // Send the email using SendGrid
     sgMail
       .send(msg)
       .then(() => {
-        console.log('Email sent') // Log success message if email is sent successfully
+        console.log('Email sent');
       })
       .catch((error) => {
-        console.error(error)
+        console.error(error);
       })
 
-    // Send success response to the client
     res.status(200).send("Signup successful");
 
   } catch (error) {
-    // Handle any errors during the database operation
     console.error('Error connecting to database:', error);
-    // Send an error response if there is a conflict with existing username/email
     res.status(500).json({ error: "This profile already exists with the username and/or email address. Please create a new profile.", details: error.message });
   }
 });
 
-// Update DB from email verification page
 app.post("/emailverify", async (req, res) => {
-  // Extract the email value from the request body
   const urlvalue = req.body.x;
 
   try {
-    // connect to SQL database
     const client = await pool.connect();
-
-    // query to updat emailvalid to yes
     const query = `
       UPDATE accounts SET emailvalid = 'YES' WHERE email = $1
     `;
-    const values = [urlvalue]; // value used in the query
-
-    // Execute the update query with the provided email value
+    const values = [urlvalue];
     await client.query(query, values);
-
     client.release();
-
-    // Send the redirect URL in the response body
     res.send('login.html');
 
   } catch (error) {
@@ -171,38 +142,23 @@ app.post("/emailverify", async (req, res) => {
   }
 });
 
-
-// Login endpoint
 app.post("/login", async (req, res) => {
-  // extracting username and password from req.body
   const { username, password } = req.body;
 
   try {
-    // connect to SQL database
     const client = await pool.connect();
-
-    // select the username and password for the user provided and check if email is valid
     const query = `
       SELECT * FROM accounts WHERE username = $1 AND password = $2 AND emailvalid = 'YES'
     `;
-    const values = [username, password]; // values used in the query
-
-    // execute query 
+    const values = [username, password];
     const result = await client.query(query, values);
-    // Release the database client back to the pool
     client.release();
 
-    // Check if a user was found with the provided credentials
     if (result.rows.length > 0) {
-      // User is authenticated
-      const user = result.rows[0]; // get user details from query result
-      const jwtSecretKey = process.env.JWT_SECRET_KEY; // get JWT key from .env file
-      // generate token with user's username and email valid for 6 hour
+      const user = result.rows[0];
+      const jwtSecretKey = process.env.JWT_SECRET_KEY;
       const token = jwt.sign({ username: user.username, email: user.email }, jwtSecretKey, { expiresIn: '6h' });
       res.json({ token });
-
-      // handling response
-     // res.status(200).json({ message: "Login successful", token });
     } else {
       res.status(401).send("Invalid credentials or email not verified");
     }
@@ -213,31 +169,21 @@ app.post("/login", async (req, res) => {
   }
 });
 
-// Endpoint to access main page, protected by token validation middleware
 app.get("/main", validateToken, (req, res) => {
-  // Sending a response indicating successful validation and the username associated with the token
   res.status(200).send(`${req.user.username} is signed in.`);
 });
 
-// Middleware function to validate JWT token
 function validateToken(req, res, next) {
-  //Extract token from local storage
   const token = localStorage.getItem('token');
-  // Retrieving JWT secret key from environment variables
   const jwtSecretKey = process.env.JWT_SECRET_KEY;
 
   try {
-    // Verifying the token with the secret key
     const verified = jwt.verify(token, jwtSecretKey);
-    // Storing the verified user information in the request object
     req.user = verified;
-    // Proceeding to the next middleware or route handler
     next();
   } catch (error) {
-    // Responding with 401 status code if the token is invalid
     res.status(401).send("Invalid Token");
   }
-
 }
 
 const storage = multer.diskStorage({
@@ -277,17 +223,17 @@ app.post('/api/updateProfile', upload.single('profileImage'), async (req, res) =
   try {
     const client = await pool.connect();
     let query = `
-      UPDATE accounts SET firstname = $1, lastname = $2, phone = $3, zipcode = $4
-      WHERE username = $5 AND password = $6
+      UPDATE accounts SET firstname = $3, lastname = $4, phone = $5, zipcode = $6
+      WHERE username = $1 AND password = $2
     `;
-    let values = [firstname, lastname, phone, zipcode, username, password];
+    let values = [username, password, firstname, lastname, phone, zipcode];
 
     if (profileImage) {
       query = `
-        UPDATE accounts SET firstname = $1, lastname = $2, phone = $3, zipcode = $4, profile_image = $5
-        WHERE username = $6 AND password = $7
+        UPDATE accounts SET firstname = $3, lastname = $4, phone = $5, zipcode = $6, profile_image = $7
+        WHERE username = $1 AND password = $2
       `;
-      values = [firstname, lastname, phone, zipcode, profileImage, username, password];
+      values = [username, password, firstname, lastname, phone, zipcode, profileImage];
     }
 
     await client.query(query, values);
@@ -300,7 +246,6 @@ app.post('/api/updateProfile', upload.single('profileImage'), async (req, res) =
   }
 });
 
-// start the app on port 3000
 app.listen(3000, () => {
   console.log("Server is listening on port 3000");
 });
