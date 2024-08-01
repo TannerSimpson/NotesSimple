@@ -3,6 +3,7 @@ const { Pool } = require("pg");
 const path = require("path");
 const dotenv = require('dotenv');
 const jwt = require('jsonwebtoken');
+const multer = require('multer');
 const NodeCache = require('node-cache');
 const sgMail = require('@sendgrid/mail');
 
@@ -196,7 +197,7 @@ app.post("/login", async (req, res) => {
       // User is authenticated
       const user = result.rows[0]; // get user details from query result
       const jwtSecretKey = process.env.JWT_SECRET_KEY; // get JWT key from .env file
-      // generate token with user's username and email valid for one hour
+      // generate token with user's username and email valid for 6 hour
       const token = jwt.sign({ username: user.username, email: user.email }, jwtSecretKey, { expiresIn: '6h' });
       res.json({ token });
 
@@ -239,12 +240,22 @@ function validateToken(req, res, next) {
 
 }
 
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'public/images');
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  }
+});
+const upload = multer({ storage });
+
 app.post('/api/profile', async (req, res) => {
   const { username, password } = req.body;
 
   try {
     const client = await pool.connect();
-    const query = 'SELECT username, firstname, lastname, email, phone, zipcode FROM accounts WHERE username = $1 AND password = $2';
+    const query = 'SELECT username, password, firstname, lastname, email, phone, zipcode FROM accounts WHERE username = $1 AND password = $2';
     const result = await client.query(query, [username, password]);
     client.release();
 
@@ -259,50 +270,35 @@ app.post('/api/profile', async (req, res) => {
   }
 });
 
-// Endpoint to get user profile data
-/*
-app.get("/profile", validateToken, async (req, res) => {
+app.post('/api/updateProfile', upload.single('profileImage'), async (req, res) => {
+  const { username, password, firstname, lastname, phone, zipcode } = req.body;
+  const profileImage = req.file ? `images/${req.file.filename}` : null;
+
   try {
     const client = await pool.connect();
-    const query = `
-      SELECT username, firstname, lastname, email, phone, zipcode 
-      FROM accounts 
-      WHERE username = $1
+    let query = `
+      UPDATE accounts SET firstname = $1, lastname = $2, phone = $3, zipcode = $4
+      WHERE username = $5 AND password = $6
     `;
-    const values = [req.user.username];
-    const result = await client.query(query, values);
+    let values = [firstname, lastname, phone, zipcode, username, password];
+
+    if (profileImage) {
+      query = `
+        UPDATE accounts SET firstname = $1, lastname = $2, phone = $3, zipcode = $4, profile_image = $5
+        WHERE username = $6 AND password = $7
+      `;
+      values = [firstname, lastname, phone, zipcode, profileImage, username, password];
+    }
+
+    await client.query(query, values);
     client.release();
 
-    if (result.rows.length > 0) {
-      res.status(200).json(result.rows[0]);
-    } else {
-      res.status(404).json({ error: "User not found" });
-    }
+    res.json({ message: 'Profile updated successfully', profileImageUrl: profileImage });
   } catch (error) {
-    console.error('Error fetching user profile:', error);
-    res.status(500).json({ error: "Internal server error", details: error.message });
-  }
-});
-
-
-app.get('/api/profile/:username', async (req, res) => {
-  const username = req.params.username;
-  try {
-    const client = await pool.connect();
-    const query = 'SELECT username, firstname, lastname, email, phone, zipcode FROM accounts WHERE username = $1';
-    const result = await client.query(query, [username]);
-    client.release();
-
-    if (result.rows.length > 0) {
-      res.json(result.rows[0]);
-    } else {
-      res.status(404).send('User not found');
-    }
-  } catch (error) {
-    console.error('Error fetching user profile:', error);
+    console.error('Error updating profile:', error);
     res.status(500).send('Internal server error');
   }
-});*/
+});
 
 // start the app on port 3000
 app.listen(3000, () => {
