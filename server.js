@@ -239,6 +239,8 @@ app.post('/api/updateProfile', upload.single('profileImage'), async (req, res) =
     await client.query(query, values);
     client.release();
 
+    console.log('Profile updated with:', { username, password, firstname, lastname, phone, zipcode, profileImage});
+
     res.json({ message: 'Profile updated successfully', profileImageUrl: profileImage });
   } catch (error) {
     console.error('Error updating profile:', error);
